@@ -12,14 +12,6 @@ import datetime
 from statsmodels.stats.weightstats import DescrStatsW
 
 
-country=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/Ctry_halfdeg.nc','r')
-#print iizumi
-coun = country.variables['MASK_Country'][:,:]
-#area=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/gridareahalf.nc','r')
-#gridarea = area.variables['cell_area'][:,:]
-#gridlon = area.variables['lon'][:]
-
-#gridarea,gridlon = shiftgrid(180.5,gridarea,gridlon,start=False)
 
 def weighted_avg_and_std(values):
 
@@ -67,6 +59,38 @@ def nowyield(year,couna,counb):
     isamyield = ma.masked_where(isamyield<=0,isamyield)
     isamyield = ma.masked_where(maizeto<=0,isamyield)
     isamyield=ma.filled(isamyield, fill_value=0.)
+    area1=NetCDFFile('/project/projectdirs/m1602/datasets4.full/surfdata_05x05.nc','r')
+    lonaa=area1.variables['lon'][:]
+    mask1 = area1.variables['REGION_MASK_CRU_NCEP'][:,:]
+    mask,lona = shiftgrid(180.5,mask1,lonaa,start=False)
+
+    nclu=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/m3yield_isam.nc','r')
+    ncvar_maize1 = nclu.variables['soy_total'][0,:,:]
+    ncvar_maize,lona = shiftgrid(180.5,ncvar_maize1,lonaa,start=False)
+    
+    if couna>=1:
+#	print couna
+        if couna==4.0 or couna==5.0:
+                maizeto=ma.masked_where(mask>5.0,maizeto)
+                maizeto=ma.masked_where(mask<4.0,maizeto)
+                maizeto=ma.filled(maizeto, fill_value=0.)
+        else: 
+                maizeto=ma.masked_where(mask!=couna,maizeto)
+                maizeto=ma.filled(maizeto, fill_value=0.)
+    maizeto = ma.masked_where(ncvar_maize<=0,maizeto)
+    maizeto=ma.filled(maizeto, fill_value=0.)
+
+#    clmyield = ma.masked_where(maizeto<=0,clmyield)
+#    isamyield = ma.masked_where(maizeto<=0,isamyield)
+#    maizeto = ma.masked_where(clmyield<=0,maizeto)
+#    maizeto = ma.masked_where(isamyield<=0,maizeto)
+
+#    clmyield = ma.masked_where(maizeto<=0,clmyield)
+#    isamyield = ma.masked_where(maizeto<=0,isamyield)
+#    maizeto = ma.masked_where(maizeto<=0,maizeto)
+
+#    maizeto=ma.filled(maizeto, fill_value=0.)
+    
     return clmyield,isamyield,maizeto
 
 
@@ -297,12 +321,42 @@ def annualyield(year,couna,counb):
     yieldagfb1 = ma.masked_where(yieldagfb1<=0,yieldagfb1)
     yieldagfc1 = ma.masked_where(yieldagfc1<=0,yieldagfc1)
     yieldagfd1 = ma.masked_where(yieldagfd1<=0,yieldagfd1)
-    maizeto = ma.masked_where(maizeto<=0,maizeto)
+   # maizeto = ma.masked_where(maizeto<=0,maizeto)
 
+    area1=NetCDFFile('/project/projectdirs/m1602/datasets4.full/surfdata_05x05.nc','r')
+    lonaa=area1.variables['lon'][:]
+    mask1 = area1.variables['REGION_MASK_CRU_NCEP'][:,:]
+    mask,lona = shiftgrid(180.5,mask1,lonaa,start=False)
+
+    nclu=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/m3yield_isam.nc','r')
+    ncvar_maize1 = nclu.variables['soy_total'][0,:,:]
+    ncvar_maize,lona = shiftgrid(180.5,ncvar_maize1,lonaa,start=False)
+    
+    if couna>=1:
+        if couna==4.0 or couna==5.0:
+                maizeto=ma.masked_where(mask>5.0,maizeto)
+                maizeto=ma.masked_where(mask<4.0,maizeto)
+		#maizeto=ma.filled(maizeto, fill_value=0.)
+        else:
+                maizeto=ma.masked_where(mask!=couna,maizeto)
+		#maizeto=ma.filled(maizeto, fill_value=0.)
+    maizeto = ma.masked_where(ncvar_maize<=0,maizeto)
+    maizeto=ma.filled(maizeto, fill_value=0.)
+    yieldagfa = ma.masked_where(maizeto<=0,yieldagfa)
+    yieldagfb = ma.masked_where(maizeto<=0,yieldagfb)
+    yieldagfc = ma.masked_where(maizeto<=0,yieldagfc)
+    yieldagfd = ma.masked_where(maizeto<=0,yieldagfd)
+    yieldagfa1 = ma.masked_where(maizeto<=0,yieldagfa1)
+    yieldagfb1 = ma.masked_where(maizeto<=0,yieldagfb1)
+    yieldagfc1 = ma.masked_where(maizeto<=0,yieldagfc1)
+    yieldagfd1 = ma.masked_where(maizeto<=0,yieldagfd1)
+    maizeto = ma.masked_where(maizeto<=0,maizeto)
+    maizeto=ma.filled(maizeto, fill_value=0.)
+    
     return yieldagfa,yieldagfa1,yieldagfb,yieldagfb1,yieldagfc,yieldagfc1,yieldagfd,yieldagfd1,maizeto
     #return harea
 
-a1=2010
+a1=2090
 a2=2100
 x=a2-a1
 clmya=N.zeros((x,360,720))
@@ -319,13 +373,10 @@ frachis=N.zeros((10,360,720))
 clmhis=N.zeros((10,360,720))
 isamhis=N.zeros((10,360,720))
 
-name=["Global"]
-range1=[10100]
-range2=[50700]
+name=["Global","NA","SA","EU","Africa","Africa","USSR","China","SSEA"]
+range1=[0,1,2,3,4,5,6,7,8]
+range2=[0,1,2,3,4,5,6,7,8]
 
-#name=["USA"]
-#range1=[11501]
-#range2=[11550]
 
 
 for i, name1 in enumerate(name):
@@ -341,26 +392,30 @@ for i, name1 in enumerate(name):
             isamhis[a,:,:]=reu[1]
             frachis[a,:,:]=reu[2]
             a=a+1
-	isamhisy=N.average(isamhis[:,:,:],weights=frachis)
-        clmhisy=N.average(clmhis[:,:,:],weights=frachis)
+	isamhisy=N.average(isamhis,weights=frachis)
+        clmhisy=N.average(clmhis,weights=frachis)
 
 
-
+fisama=N.zeros((9,2))
+fisamb=N.zeros((9,2))
+fisamc=N.zeros((9,2))
+fisamd=N.zeros((9,2))
 for i, name1 in enumerate(name):
         a=0
-	clmya= N.zeros((x,360,720))
+	clmya=N.zeros((x,360,720))
 	clmyb=N.zeros((x,360,720))
 	clmyc=N.zeros((x,360,720))
-	isamyd= N.zeros((x,360,720))
-	clmyd= N.zeros((x,360,720))
-	isamya= N.zeros((x,360,720))
-	isamyb= N.zeros((x,360,720))
-	isamyc= N.zeros((x,360,720))
+	isamyd=N.zeros((x,360,720))
+	clmyd=N.zeros((x,360,720))
+	isamya=N.zeros((x,360,720))
+	isamyb=N.zeros((x,360,720))
+	isamyc=N.zeros((x,360,720))
 	frac=N.zeros((x,360,720))
 
 	for num in range(a1,a2):
     
 	    reu=annualyield(num,range1[i],range2[i])
+	#    print i, num,a1,a2,range1[i]
 	    isamya[a,:,:]=reu[0]
 	    isamyb[a,:,:]=reu[2]
 	    clmya[a,:,:]=reu[1]
@@ -370,88 +425,108 @@ for i, name1 in enumerate(name):
             isamyd[a,:,:]=reu[6]
             clmyd[a,:,:]=reu[7]
             frac[a,:,:]=reu[8]
+	 #   print a
 	    a=a+1
-        d1=2010-2010
-        d2=2020-2010
-        c1=2090-2010
-        c2=2100-2010
-        frac10=frac[d1:d2,:,:]
-        frac10a=N.average(frac10,axis=0)
+        c1=0
+        c2=10
         frac50=frac[c1:c2,:,:]
-        frac50a=N.average(frac50,axis=0)
-        isama50=N.average(isamya[c1:c2,:,:],weights=frac50)
- 	isamb50=N.average(isamyb[c1:c2,:,:],weights=frac50)
-        isamc50=N.average(isamyc[c1:c2,:,:],weights=frac50)
-        isamd50=N.average(isamyd[c1:c2,:,:],weights=frac50)
-        isama10=N.average(isamya[d1:d2,:,:],weights=frac10)
-        isamb10=N.average(isamyb[d1:d2,:,:],weights=frac10)
-        isamc10=N.average(isamyc[d1:d2,:,:],weights=frac10)
-        isamd10=N.average(isamyd[d1:d2,:,:],weights=frac10)
-        clma50=N.average(clmya[c1:c2,:,:],weights=frac50)
-        clmb50=N.average(clmyb[c1:c2,:,:],weights=frac50)
-        clmc50=N.average(clmyc[c1:c2,:,:],weights=frac50)
-        clmd50=N.average(clmyd[c1:c2,:,:],weights=frac50)
-        clma10=N.average(clmya[d1:d2,:,:],weights=frac10)
-        clmb10=N.average(clmyb[d1:d2,:,:],weights=frac10)
-        clmc10=N.average(clmyc[d1:d2,:,:],weights=frac10)
-        clmd10=N.average(clmyd[d1:d2,:,:],weights=frac10)
+        isama50=N.average(isamya,weights=frac)
+ 	isamb50=N.average(isamyb,weights=frac)
+        isamc50=N.average(isamyc,weights=frac)
+        isamd50=N.average(isamyd,weights=frac)
+        clma50=N.average(clmya,weights=frac)
+        clmb50=N.average(clmyb,weights=frac)
+        clmc50=N.average(clmyc,weights=frac)
+        clmd50=N.average(clmyd,weights=frac)
 	
 
-	fisama=(isama50-isamhisy)/isamhisy*100.
-        fisamb=(isamb50-isamhisy)/isamhisy*100.
-        fisamc=(isamc50-isamhisy)/isamhisy*100.
-        fisamd=(isamd50-isamhisy)/isamhisy*100.
-        fclma=(clma50-clmhisy)/clmhisy*100.
-        fclmb=(clmb50-clmhisy)/clmhisy*100.
-        fclmc=(clmc50-clmhisy)/clmhisy*100.
-        fclmd=(clmd50-clmhisy)/clmhisy*100.
+	fisama[i,0]=(isama50-isamhisy)/isamhisy*100.
+        fisamb[i,0]=(isamb50-isamhisy)/isamhisy*100.
+        fisamc[i,0]=(isamc50-isamhisy)/isamhisy*100.
+        fisamd[i,0]=(isamd50-isamhisy)/isamhisy*100.
+        fisama[i,1]=(clma50-clmhisy)/clmhisy*100.
+        fisamb[i,1]=(clmb50-clmhisy)/clmhisy*100.
+        fisamc[i,1]=(clmc50-clmhisy)/clmhisy*100.
+        fisamd[i,1]=(clmd50-clmhisy)/clmhisy*100.
 
-        fisama=N.append(fisama,fclma)
-        fisamb=N.append(fisamb,fclmb)
-        fisamc=N.append(fisamc,fclmc)
-        fisamd=N.append(fisamd,fclmd)
+print fisama
+fig = plt.figure(figsize=(4,3.5))
+plt.rc('font', weight='bold')
+for idx in xrange(9):
+        ax = fig.add_subplot(3, 3, idx+1)
+        ax.spines['bottom'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.spines['top'].set_visible(False)
+        ax.yaxis.set_ticks_position('left')
 
-
-
-	fig = plt.figure(figsize=(5,5))
-
+      
 	n_groups = 2
-	ax = fig.add_subplot(111)
 	index = N.arange(n_groups)
-	bar_width = 0.2
-	opacity = 0.8
-	rects0 = plt.bar(index, fisama, bar_width,
-                 alpha=opacity,
-                 color='k',
-                 label='CLIMATE')
-	rects4 = plt.bar(index+bar_width, fisamb, bar_width,
-                 alpha=opacity,
-                 color='c',
-                 label='CO2+CLIMATE')
-	rects1 = plt.bar(index+bar_width*2, fisamc, bar_width,
-                 alpha=opacity,
-                 color='r',
-                 label='CO2+CLIMATE+N')
-	rects2 = plt.bar(index + bar_width*3, fisamd, bar_width,
-                 alpha=opacity,
-                 color='g',
-                 label='CO2+CLIMATE+N+I')
+        plt.ylim(-50, 100)
+	bar_width = 0.3
+	opacity = 0.6
+	for x in range(0,2):
+	
+        	rects0 = plt.bar(index[x], fisama[idx,x], bar_width,
+                	 alpha=0.8,
+                   	color='b',
+                 	label='CLIMATE')
+		if fisama[idx,x]<0.0:
+		        	rects4 = plt.bar(index[x], fisamb[idx,x], bar_width,
+                		 	alpha=opacity,
+		                 	color='k',
+		                 	label='CO2+CLIMATE')
+		else:	
+				rects4 = plt.bar(index[x], fisamb[idx,x]-fisama[idx,x], bar_width,
+                                	 alpha=opacity,
+                                 	color='k',
+				 	bottom=fisama[idx,x],
+                                 	label='CO2+CLIMATE')
+                if fisamb[idx,x]<0.0:
+	        	rects1 = plt.bar(index[x], fisamc[idx,x], bar_width,
+	                	 alpha=0.8,
+	                 	color='g',
+	                 	label='CO2+CLIMATE+N')
+		else:
+			rects1 = plt.bar(index[x], fisamc[idx,x]-fisamb[idx,x], bar_width,
+                                 alpha=0.8,
+                                color='g',
+                                bottom=fisamb[idx,x],
+                                label='CO2+CLIMATE+N')
+                if fisamc[idx,x]<0.0:
+
+	                rects2 = plt.bar(index[x] , fisamd[idx,x], bar_width,
+        	                alpha=0.8,
+                	        color='r',
+                        	label='CO2+CLIMATE+N+I')
+
+		else:
+	        	rects2 = plt.bar(index[x] , fisamd[idx,x]-fisamc[idx,x], bar_width,
+        	         	alpha=0.8,
+                	 	color='r',
+	         		bottom=fisamc[idx,x],
+                 		label='CO2+CLIMATE+N+I')
+
+	        plt.tight_layout()
+	        plt.tick_params(
+        	    axis='x',          # changes apply to the x-axis
+      	      	    which='both',      # both major and minor ticks are affected
+                    bottom='off',      # ticks along the bottom edge are off
+                    top='off',         # ticks along the top edge are off
+                    labelbottom='off') # labels along the bottom edge are off
+
+	        #plt.ylim(-35,90)
+	        #plt.yticks(N.arange(-35,90,10))
+
+	#plt.xticks(index + bar_width+0.2, ('ISAM','CLM'))
+	        ax.text(.55,.85,'{0}'.format(name[idx]),
+        	        horizontalalignment='center',
+                	transform=ax.transAxes)
+	        ax.tick_params(labelsize=10)
 
 
-        plt.ylim(-35,90)
-        plt.yticks(N.arange(-35,90,10))
-
-	plt.ylabel('percentage of yield changes (%)',fontsize=18)
-#	plt.title('2050s-2010s maize',fontsize=18)
-	plt.xticks(index + bar_width+0.2, ('ISAM','CLM'))
-#	leg=plt.legend(loc=2)
-#	leg.get_frame().set_alpha(0.5)
-	plt.tick_params(axis='both',labelsize=18)
-
-	plt.tight_layout()
-
-	plt.savefig('soy2090_his_45_paper.png')
-	plt.show()
+plt.savefig('soy2090_45_region.png')
+plt.show()
 
 
 

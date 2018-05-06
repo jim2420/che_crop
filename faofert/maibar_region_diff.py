@@ -10,23 +10,23 @@ area1=NetCDFFile('/project/projectdirs/m1602/datasets4.full/surfdata_05x05.nc','
 mask = area1.variables['REGION_MASK_CRU_NCEP'][:,:]
 
 area=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/gridareahalf_isam.nc','r')
-gridarea = area.variables['cell_area'][:,:]
+gridarea1= area.variables['cell_area'][:,:]
 gridlon = area.variables['lon'][:]
 gridlat=area.variables['lat'][:]
 #print gridlon
 nclu=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/m3yield_isam.nc','r')
-ncvar_maize = nclu.variables['soyy'][0,:,:]
-marea = nclu.variables['soy_area'][0,:,:]
+ncvar_maize = nclu.variables['maizey'][0,:,:]
+marea = nclu.variables['maize_area'][0,:,:]
 
 
 
 
 
 region1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/HistoricalGLM_crop_150901.nc','r')
-maitrop = region1.variables['soy_trop'][95:105,:,:]
-maitemp = region1.variables['soy_temp'][95:105,:,:]
-maitropi=region1.variables['soy_trop_irrig'][95:105,:,:]
-maitempi=region1.variables['soy_temp_irrig'][95:105,:,:]
+maitrop = region1.variables['maize_trop'][95:105,:,:]
+maitemp = region1.variables['maize_temp'][95:105,:,:]
+maitropi=region1.variables['maize_trop_irrig'][95:105,:,:]
+maitempi=region1.variables['maize_temp_irrig'][95:105,:,:]
 landfrac =region1.variables['landfrac'][:,:]
 gridarea = region1.variables['area'][:,:]
 lonisam1=region1.variables['lon'][:]
@@ -45,28 +45,42 @@ maizeto = maitrop+maitemp+maitropi+maitempi
 maizetropo=maitrop+maitropi
 maizetempo=maitemp+maitempi
 
+edat=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/equili/maizetemp_historical_constco2_constcli_rf_nofert_0.5x0.5.nc','r')
+eiyield1ynew = edat.variables['totalyield'][95:105,:,:]
+
+edat2=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/equili/maizetemp_historical_constco2_constcli_irrig_nofert_0.5x0.5.nc','r')
+eiyield2ynew = edat2.variables['totalyield'][95:105,:,:]
+
+edat3=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/equili/maizetemp_historical_constco2_constcli_rf_fert_0.5x0.5.nc','r')
+eiyield3ynew = edat3.variables['totalyield'][95:105,:,:]
+
+edat4=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/equili/maizetemp_historical_co2_constcli_rf_nofert_0.5x0.5.nc','r')
+eiyield4ynew = edat4.variables['totalyield'][95:105,:,:]
+
+edat5=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/equili/maizetemp_historical_constco2_cli_rf_nofert_0.5x0.5.nc','r')
+eiyield5ynew = edat5.variables['totalyield'][95:105,:,:]
  
 
 
 
-dat=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/soytemp_historical_co2_irrig_fert_0.5x0.5.nc','r')
+dat=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/maizetemp_historical_co2_irrig_fert_0.5x0.5.nc','r')
 iyield1ynew = dat.variables['totalyield'][95:105,:,:]
 latisam=dat.variables['lat'][:]
 lonisam=dat.variables['lon'][:]
-dat2=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/soytemp_historical_co2_rf_fert_0.5x0.5.nc','r')
+dat2=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/maizetemp_historical_co2_rf_fert_0.5x0.5.nc','r')
 iyield2ynew = dat2.variables['totalyield'][95:105,:,:]
 
-dat3=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/soytemp_historical_co2_irrig_nofert_0.5x0.5.nc','r')
+dat3=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/maizetemp_historical_co2_irrig_nofert_0.5x0.5.nc','r')
 iyield3ynew = dat3.variables['totalyield'][95:105,:,:]
 
-dat4=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/soytemp_historical_constco2_irrig_fert_0.5x0.5.nc','r')
+dat4=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/maizetemp_historical_constco2_irrig_fert_0.5x0.5.nc','r')
 iyield4ynew = dat4.variables['totalyield'][95:105,:,:]
 
-dat5=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/soytemp_historical_constclim_irrig_fert_0.5x0.5.nc','r')
+dat5=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/maizetemp_historical_constclim_irrig_fert_0.5x0.5.nc','r')
 iyield5ynew = dat5.variables['totalyield'][95:105,:,:]
 
 
-dat6=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/soytemp_historical_co2_irrig_fert_0.5x0.5.nc','r')
+dat6=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/maizetemp_historical_co2_irrig_fert_0.5x0.5.nc','r')
 iyield6ynew = dat6.variables['totalyield'][95:105,:,:]
 
 
@@ -77,6 +91,11 @@ iyield4ynew= ma.masked_where(iyield4ynew<=0.,iyield4ynew)
 iyield5ynew= ma.masked_where(iyield5ynew<=0.,iyield5ynew)
 iyield6ynew= ma.masked_where(iyield6ynew<=0.,iyield6ynew)
 
+eiyield1ynew= ma.masked_where(eiyield1ynew<=0.,eiyield1ynew)
+eiyield2ynew= ma.masked_where(eiyield2ynew<=0.,eiyield2ynew)
+eiyield3ynew= ma.masked_where(eiyield3ynew<=0.,eiyield3ynew)
+eiyield4ynew= ma.masked_where(eiyield4ynew<=0.,eiyield4ynew)
+eiyield5ynew= ma.masked_where(eiyield5ynew<=0.,eiyield5ynew)
 
 
 maizeto1,lonisam2=shiftgrid(0.5,maizeto,lonisam1,start=True)
@@ -85,10 +104,7 @@ maizeto1r,lonisam2=shiftgrid(0.5,maitrop,lonisam1,start=True)
 maizete1i,lonisam2=shiftgrid(0.5,maitempi,lonisam1,start=True)
 maizete1r,lonisam2=shiftgrid(0.5,maitemp,lonisam1,start=True)
 landfrac1,lonisam2=shiftgrid(0.5,landfrac,lonisam1,start=True)
-gridarea1,lonisam2=shiftgrid(0.5,gridarea,lonisam1,start=True)
-
-
-
+#gridarea1,lonisam2=shiftgrid(0.5,gridarea,lonisam1,start=True)
 
 iyield1ynew=ma.filled(iyield1ynew, fill_value=0.)
 iyield2ynew=ma.filled(iyield2ynew, fill_value=0.)
@@ -105,9 +121,23 @@ iyield5ynew= ma.masked_where(iyield5ynew<=0.,iyield5ynew)
 iyield6ynew= ma.masked_where(iyield6ynew<=0.,iyield6ynew)
 
 
+
+eiyield1ynew=ma.filled(eiyield1ynew, fill_value=0.)
+eiyield2ynew=ma.filled(eiyield2ynew, fill_value=0.)
+eiyield3ynew=ma.filled(eiyield3ynew, fill_value=0.)
+eiyield4ynew=ma.filled(eiyield4ynew, fill_value=0.)
+eiyield5ynew=ma.filled(eiyield5ynew, fill_value=0.)
+
+eiyield1ynew= ma.masked_where(eiyield1ynew<=0.,eiyield1ynew)
+eiyield2ynew= ma.masked_where(eiyield2ynew<=0.,eiyield2ynew)
+eiyield3ynew= ma.masked_where(eiyield3ynew<=0.,eiyield3ynew)
+eiyield4ynew= ma.masked_where(eiyield4ynew<=0.,eiyield4ynew)
+eiyield5ynew= ma.masked_where(eiyield5ynew<=0.,eiyield5ynew)
+
+
+
 #print iyield1ynew.shape
 mmarea=N.zeros((10,360,720))
-
 rmask=N.zeros((10,360,720))
 m3maize=N.zeros((10,360,720))
 maizeto2=N.zeros((10,360,720))
@@ -120,7 +150,7 @@ gridarea2=N.zeros((10,360,720))
 for i in range(0,10):
 	for x in range(0,360):
 		for y in range(0,720):
-                        mmarea[i,x,y]=marea[x,y]
+			mmarea[i,x,y]=marea[x,y]
                         rmask[i,x,y]=mask[x,y]
                         m3maize[i,x,y]=ncvar_maize[x,y] 
 			maizeto2[i,x,y]=maizeto1[i,x,y]
@@ -138,6 +168,14 @@ iyield4ynew= ma.masked_where(m3maize<=0.,iyield4ynew)
 iyield5ynew= ma.masked_where(m3maize<=0.,iyield5ynew)
 iyield6ynew= ma.masked_where(m3maize<=0.,iyield6ynew)
 
+eiyield1ynew= ma.masked_where(m3maize<=0.,eiyield1ynew)
+eiyield2ynew= ma.masked_where(m3maize<=0.,eiyield2ynew)
+eiyield3ynew= ma.masked_where(m3maize<=0.,eiyield3ynew)
+eiyield4ynew= ma.masked_where(m3maize<=0.,eiyield4ynew)
+eiyield5ynew= ma.masked_where(m3maize<=0.,eiyield5ynew)
+
+
+
 ii=N.zeros((9))
 nn=N.zeros((9))
 co=N.zeros((9))
@@ -146,6 +184,15 @@ sii=N.zeros((9))
 snn=N.zeros((9))
 sco=N.zeros((9))
 scli=N.zeros((9))
+
+eii=N.zeros((9))
+enn=N.zeros((9))
+eco=N.zeros((9))
+ecli=N.zeros((9))
+esii=N.zeros((9))
+esnn=N.zeros((9))
+esco=N.zeros((9))
+escli=N.zeros((9))
 
 
 for i in range (1,9):
@@ -178,6 +225,27 @@ for i in range (1,9):
 	sco[i]=N.std(dd)
 	scli[i]=N.std(ee)
 
+        eallynew=N.average(eiyield1ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+        eallyinew=N.average(eiyield2ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+        eallynnew=N.average(eiyield3ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+        eallycnew=N.average(eiyield4ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+        eallyclinew=N.average(eiyield5ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+
+
+        ebb=((allynew-allyinew)-(eallyinew-eallynew))/allynew*100
+        ecc=((allynew-allynnew)-(eallynnew-eallynew))/allynew*100
+        edd=((allynew-allycnew)-(eallycnew-eallynew))/allynew*100
+        eee=((allynew-allyclinew)-(eallyclinew-eallynew))/allynew*100
+
+        eii[i]=N.average(ebb)
+        enn[i]=N.average(ecc)
+        eco[i]=N.average(edd)
+        ecli[i]=N.average(eee)
+
+        esii[i]=N.std(ebb)
+        esnn[i]=N.std(ecc)
+        esco[i]=N.std(edd)
+        escli[i]=N.std(eee)
 
 allynew=N.average(iyield1ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
 allyinew=N.average(iyield2ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
@@ -200,6 +268,31 @@ snn[0]=N.std(cc)
 sco[0]=N.std(dd)
 scli[0]=N.std(ee)
 
+
+
+eallynew=N.average(eiyield1ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+eallyinew=N.average(eiyield2ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+eallynnew=N.average(eiyield3ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+eallycnew=N.average(eiyield4ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+eallyclinew=N.average(eiyield5ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+
+ebb=((allynew-allyinew)-(eallyinew-eallynew))/allynew*100
+ecc=((allynew-allynnew)-(eallynnew-eallynew))/allynew*100
+edd=((allynew-allycnew)-(eallycnew-eallynew))/allynew*100
+eee=((allynew-allyclinew)-(eallyclinew-eallynew))/allynew*100
+
+eii[0]=N.average(ebb)
+enn[0]=N.average(ecc)
+eco[0]=N.average(edd)
+ecli[0]=N.average(eee)
+
+esii[0]=N.std(ebb)
+esnn[0]=N.std(ecc)
+esco[0]=N.std(edd)
+escli[0]=N.std(eee)
+
+
+
 name=["Global","NA","SA","EU","Africa","Africa","USSR","China","SSEA"]
 
 fig = plt.figure(figsize=(4.3,3.5))
@@ -214,22 +307,22 @@ for idx in xrange(9):
         ax.yaxis.set_ticks_position('left')
 
 	n_groups = 1
-	plt.ylim(-15, 60)
-	ax.set_yticks([-15,0,15,30,45,60 ])
+	#plt.ylim(-15, 60)
+	#ax.set_yticks([-15,0,15,30,45,60 ])
 
 	index = N.arange(n_groups)
 	bar_width = 0.01
 	opacity = 0.6
-        rects3 = plt.bar(index+0.05, cli[idx], bar_width, yerr=scli[idx],
+        rects3 = plt.bar(index+0.05, ecli[idx], bar_width, yerr=escli[idx],
                  alpha=opacity,color='blue',
                  label='Climate')
-        rects2 = plt.bar(index+0.05+bar_width, co[idx], bar_width, yerr=sco[idx],
+	rects2 = plt.bar(index+0.05+bar_width, eco[idx], bar_width, yerr=esco[idx],
                  alpha=opacity,color='black',
                  label='CO$_{2}$')
-	rects0 = plt.bar(index+0.05+bar_width*2, ii[idx], bar_width,yerr=sii[idx],
+	rects0 = plt.bar(index+0.05+bar_width*2, eii[idx], bar_width,yerr=esii[idx],
 	         alpha=0.9,color='red',
 	         label='Irrigation')
-	rects1 = plt.bar(index+bar_width*3+0.05, nn[idx], bar_width,yerr=snn[idx],
+	rects1 = plt.bar(index+bar_width*3+0.05, enn[idx], bar_width,yerr=esnn[idx],
 	         alpha=opacity,color='green',
 	         label='NF')
 	plt.tight_layout()
@@ -250,5 +343,5 @@ for idx in xrange(9):
 #plt.tight_layout()
 	ax.tick_params(labelsize=10)
 
-plt.savefig('soy_region.png')
+plt.savefig('maize_region_diff.png')
 plt.show()

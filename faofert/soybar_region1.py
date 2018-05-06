@@ -16,7 +16,6 @@ gridlat=area.variables['lat'][:]
 #print gridlon
 nclu=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/m3yield_isam.nc','r')
 ncvar_maize = nclu.variables['soyy'][0,:,:]
-marea = nclu.variables['soy_area'][0,:,:]
 
 
 
@@ -106,8 +105,6 @@ iyield6ynew= ma.masked_where(iyield6ynew<=0.,iyield6ynew)
 
 
 #print iyield1ynew.shape
-mmarea=N.zeros((10,360,720))
-
 rmask=N.zeros((10,360,720))
 m3maize=N.zeros((10,360,720))
 maizeto2=N.zeros((10,360,720))
@@ -120,7 +117,6 @@ gridarea2=N.zeros((10,360,720))
 for i in range(0,10):
 	for x in range(0,360):
 		for y in range(0,720):
-                        mmarea[i,x,y]=marea[x,y]
                         rmask[i,x,y]=mask[x,y]
                         m3maize[i,x,y]=ncvar_maize[x,y] 
 			maizeto2[i,x,y]=maizeto1[i,x,y]
@@ -157,11 +153,11 @@ for i in range (1,9):
 	else:
 		maizeto3=ma.masked_where(rmask!=i,maizeto3)
 
-	allynew=N.average(iyield1ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
-	allyinew=N.average(iyield2ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
-	allynnew=N.average(iyield3ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
-	allycnew=N.average(iyield4ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
-	allyclinew=N.average(iyield5ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+	allynew=N.average(iyield1ynew,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+	allyinew=N.average(iyield2ynew,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+	allynnew=N.average(iyield3ynew,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+	allycnew=N.average(iyield4ynew,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+	allyclinew=N.average(iyield5ynew,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
 
 	bb=(allynew-allyinew)/allynew*100
 	cc=(allynew-allynnew)/allynew*100
@@ -179,11 +175,11 @@ for i in range (1,9):
 	scli[i]=N.std(ee)
 
 
-allynew=N.average(iyield1ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
-allyinew=N.average(iyield2ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
-allynnew=N.average(iyield3ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
-allycnew=N.average(iyield4ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
-allyclinew=N.average(iyield5ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+allynew=N.average(iyield1ynew,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+allyinew=N.average(iyield2ynew,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+allynnew=N.average(iyield3ynew,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+allycnew=N.average(iyield4ynew,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+allyclinew=N.average(iyield5ynew,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
 
 bb=(allynew-allyinew)/allynew*100
 cc=(allynew-allynnew)/allynew*100
@@ -202,37 +198,57 @@ scli[0]=N.std(ee)
 
 name=["Global","NA","SA","EU","Africa","Africa","USSR","China","SSEA"]
 
-fig = plt.figure(figsize=(4.3,3.5))
-plt.rc('font', weight='bold')
+fig = plt.figure(figsize=(18,10))
+#plt.rc('font', weight='bold')
 plt.subplots_adjust(hspace=1)
 
-for idx in xrange(9):
-	ax = fig.add_subplot(3, 3, idx+1)
+for idx in xrange(1):
+	ax = fig.add_subplot(1, 1, idx+1)
         ax.spines['bottom'].set_visible(False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.yaxis.set_ticks_position('left')
 
 	n_groups = 1
-	plt.ylim(-15, 60)
-	ax.set_yticks([-15,0,15,30,45,60 ])
+	plt.ylim(-5, 65)
+	ax.set_yticks([0,15,30,45,60 ])
 
 	index = N.arange(n_groups)
 	bar_width = 0.01
-	opacity = 0.6
-        rects3 = plt.bar(index+0.05, cli[idx], bar_width, yerr=scli[idx],
-                 alpha=opacity,color='blue',
-                 label='Climate')
-        rects2 = plt.bar(index+0.05+bar_width, co[idx], bar_width, yerr=sco[idx],
+	opacity = 1.0
+#        rects3 = plt.bar(index+0.05+bar_width*3, cli[idx], bar_width, yerr=scli[idx],
+#                 alpha=opacity,color='blue',
+#                 label='Climate')
+#        rects2 = plt.bar(index+0.05+bar_width*2, co[idx], bar_width, yerr=sco[idx],
+#                 alpha=opacity,color='black',
+#                 label='Climate+CO$_{2}$')
+#        rects1 = plt.bar(index+bar_width+0.05, nn[idx], bar_width,yerr=snn[idx],
+#                 alpha=opacity,color='green',
+#                 label='Climate+CO$_{2}$+NF')
+#	rects0 = plt.bar(index+0.05, ii[idx], bar_width,yerr=sii[idx],
+#	         alpha=1.0,color='red',
+#	         label='Climate+CO$_{2}$+NF+Irrigation')
+
+
+        rects2 = plt.bar(index+0.05+bar_width*2, co[idx], bar_width, yerr=sco[idx],
                  alpha=opacity,color='black',
                  label='CO$_{2}$')
-	rects0 = plt.bar(index+0.05+bar_width*2, ii[idx], bar_width,yerr=sii[idx],
-	         alpha=0.9,color='red',
-	         label='Irrigation')
-	rects1 = plt.bar(index+bar_width*3+0.05, nn[idx], bar_width,yerr=snn[idx],
-	         alpha=opacity,color='green',
-	         label='NF')
+        rects3 = plt.bar(index+0.05+bar_width*3, cli[idx], bar_width, yerr=scli[idx],
+                 alpha=opacity,color='blue',
+                 label='Climate')
+        rects1 = plt.bar(index+bar_width+0.05, nn[idx], bar_width,yerr=snn[idx],
+                 alpha=opacity,color='red',
+                 label='Irrigation')
+        rects0 = plt.bar(index+0.05, ii[idx], bar_width,yerr=sii[idx],
+                 alpha=1.0,color='green',
+                 label='NF')
+
+
 	plt.tight_layout()
+	leg=plt.legend(loc=1,fontsize=16,ncol=4)
+	leg.get_frame().set_alpha(0.5)
+	leg.get_frame().set_facecolor('none')
+        leg.get_frame().set_edgecolor('none')
 
 	#plt.subplots_adjust(hspace=0.5)
 	plt.tick_params(
@@ -243,12 +259,12 @@ for idx in xrange(9):
 	    labelbottom='off') # labels along the bottom edge are off
 #	plt.axis('off')
 
-	ax.text(.55,.85,'{0}'.format(name[idx]),
-        	horizontalalignment='center',
-        	transform=ax.transAxes)
+#	ax.text(.55,.85,'{0}'.format(name[idx]),
+#        	horizontalalignment='center',
+#        	transform=ax.transAxes)
 #	plt.title('{0}'.format(name[idx]))
 #plt.tight_layout()
 	ax.tick_params(labelsize=10)
 
-plt.savefig('soy_region.png')
+plt.savefig('soy_test12.png')
 plt.show()

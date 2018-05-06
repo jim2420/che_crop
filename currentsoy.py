@@ -12,7 +12,13 @@ import datetime
 from statsmodels.stats.weightstats import DescrStatsW
 import matplotlib.colors as colors
 
-region1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/RCP85_crop_150901.nc','r')
+
+nclu=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/m3yield_isam.nc','r')
+ncvar_maize = nclu.variables['soyy'][0,:,:]
+
+
+
+region1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/RCP45_crop_150901.nc','r')
 maitrop = region1.variables['soy_trop'][4,:,:]
 maitemp = region1.variables['soy_temp'][4,:,:]
 maitropi = region1.variables['soy_trop_irrig'][4,:,:]
@@ -52,13 +58,13 @@ years2 = range(2090,2100)
 for i, year1 in enumerate(years2):
 
 
-    base2 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/rcp85/heat/new/soyhis_irr_fert/output/hsoyhis_irr_fert.bgp-yearly_crop_{0}.nc".format(year1), mode='r')  
+    base2 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/rcp45/heat/new/soyhis_fert/output/hsoyhis_fert.bgp-yearly_crop_{0}.nc".format(year1), mode='r')  
     yield2 = base2.variables["yield"][1,:,:]
     yieldf2[i, :, :] = yield2
     lona1 = base2.variables["lon"][:]
     lata1 = base2.variables["lat"][:]
 
-    base2a = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/rcp85/heat/new/soyhis_irr_fertrop/output/hsoyhis_irr_fertrop.bgp-yearly_crop_{0}.nc".format(year1), mode='r')
+    base2a = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/rcp45/heat/new/soyhis_fertrop/output/hsoyhis_fertrop.bgp-yearly_crop_{0}.nc".format(year1), mode='r')
     yield2a = base2a.variables["yield"][1,:,:]
     yieldf2a[i, :, :] = yield2a
 
@@ -78,6 +84,8 @@ yield_new2=ma.masked_where(isamyield<=0.,yield_new2)
 yieldisam=yield_new2-isamyield
 yieldisam= ma.masked_where(yieldisam==0.,yieldisam)
 
+ncvar_maize,lona11 = shiftgrid(180.5,ncvar_maize,lona1,start=False)
+yieldisam= ma.masked_where(ncvar_maize<=0.,yieldisam)
 
 
 
@@ -107,23 +115,23 @@ cbar.ax.tick_params(labelsize=12)
 plt.axis('off')
 
 ax2 = fig.add_subplot(212)
-ax2.set_title("ISAM yield difference 2090s-current (t/ha)",fontsize=18)
+ax2.set_title("Soybean RCP8.5 ",fontsize=18)
 map = Basemap(projection ='cyl', llcrnrlat=-65, urcrnrlat=90,llcrnrlon=-180, urcrnrlon=180, resolution='c')
 #map = Basemap(llcrnrlon=-119,llcrnrlat=23,urcrnrlon=-63,urcrnrlat=51,projection='lcc',lat_1=33,lat_2=45,lon_0=-95)
-map.drawcoastlines()
+map.drawcoastlines(color='gray')
 #map.drawstates()
 #map.drawcountries(color='b')
 
-map.drawcoastlines()
-map.drawcountries()
-map.drawmapboundary()
+#map.drawcoastlines()
+#map.drawcountries()
+#map.drawmapboundary()
 cs = map.pcolormesh(x,y,yieldisam/isamyield*100,cmap=plt.cm.bwr,vmin=-100.,vmax=100.)
 cbar = map.colorbar(cs,location='bottom',size="4%",pad="2%")
-cbar.ax.tick_params(labelsize=12)
+cbar.ax.tick_params(labelsize=14)
 plt.axis('off')
 plt.tight_layout()
 
-plt.savefig('soy2006_2015_rcp85.jpg',dpi=300,bbox_inches='tight')
+plt.savefig('soy2006_2015_rcp45c_a.jpg',dpi=300,bbox_inches='tight')
 plt.show()
 
 

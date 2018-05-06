@@ -420,22 +420,56 @@ for i, name1 in enumerate(name):
 	index = N.arange(n_groups)
 	bar_width = 0.2
 	opacity = 0.8
-	rects0 = plt.bar(index, fisama, bar_width,
-                 alpha=opacity,
-                 color='k',
-                 label='CLIMATE')
-	rects4 = plt.bar(index+bar_width, fisamb, bar_width,
-                 alpha=opacity,
-                 color='c',
-                 label='CO2+CLIMATE')
-	rects1 = plt.bar(index+bar_width*2, fisamc, bar_width,
-                 alpha=opacity,
-                 color='r',
-                 label='CO2+CLIMATE+N')
-	rects2 = plt.bar(index + bar_width*3, fisamd, bar_width,
-                 alpha=opacity,
-                 color='g',
-                 label='CO2+CLIMATE+N+I')
+#	rects0 = plt.bar(index, fisama, bar_width,
+#                 alpha=opacity,
+#                 color='k',
+#                 label='CLIMATE')
+#	rects4 = plt.bar(index+bar_width, fisamb, bar_width,
+#                 alpha=opacity,
+#                 color='c',
+#                 label='CO2+CLIMATE')
+#	rects1 = plt.bar(index+bar_width*2, fisamc, bar_width,
+#                 alpha=opacity,
+#                 color='r',
+#                 label='CO2+CLIMATE+N')
+#	rects2 = plt.bar(index + bar_width*3, fisamd, bar_width,
+#                 alpha=opacity,
+#                 color='g',
+#                 label='CO2+CLIMATE+N+I')
+	for i in range(0,2):
+	
+        	rects0 = plt.bar(index[i], fisama[i], bar_width,
+                	 alpha=0.8,
+                   	color='b',
+                 	label='CLIMATE')
+		if fisama[i]<0.0:
+		        	rects4 = plt.bar(index[i], fisamb[i], bar_width,
+                		 	alpha=opacity,
+		                 	color='k',
+		                 	label='CO2+CLIMATE')
+		else:	
+				rects4 = plt.bar(index[i], fisamb[i]-fisama[i], bar_width,
+                                	 alpha=opacity,
+                                 	color='k',
+				 	bottom=fisama[i],
+                                 	label='CO2+CLIMATE')
+                if fisamb[i]<0.0:
+	        	rects1 = plt.bar(index[i], fisamc[i], bar_width,
+	                	 alpha=0.8,
+	                 	color='g',
+	                 	label='CO2+CLIMATE+N')
+		else:
+			rects1 = plt.bar(index[i], fisamc[i]-fisamb[i], bar_width,
+                                 alpha=0.8,
+                                color='g',
+                                bottom=fisamb[i],
+                                label='CO2+CLIMATE+N')
+
+        	rects2 = plt.bar(index[i] , fisamd[i]-fisamc[i], bar_width,
+                 	alpha=0.8,
+                 	color='r',
+	         	bottom=fisamc[i],
+                 	label='CO2+CLIMATE+N+I')
 
 
         plt.ylim(-35,90)
@@ -450,7 +484,7 @@ for i, name1 in enumerate(name):
 
 	plt.tight_layout()
 
-	plt.savefig('soy2090_his_45_paper.png')
+#	plt.savefig('soy2090_his_45_paper.png')
 	plt.show()
 
 

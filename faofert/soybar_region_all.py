@@ -10,7 +10,7 @@ area1=NetCDFFile('/project/projectdirs/m1602/datasets4.full/surfdata_05x05.nc','
 mask = area1.variables['REGION_MASK_CRU_NCEP'][:,:]
 
 area=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/gridareahalf_isam.nc','r')
-gridarea = area.variables['cell_area'][:,:]
+gridarea1= area.variables['cell_area'][:,:]
 gridlon = area.variables['lon'][:]
 gridlat=area.variables['lat'][:]
 #print gridlon
@@ -45,6 +45,20 @@ maizeto = maitrop+maitemp+maitropi+maitempi
 maizetropo=maitrop+maitropi
 maizetempo=maitemp+maitempi
 
+edat=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/equili/soytemp_historical_constco2_constcli_rf_nofert_0.5x0.5.nc','r')
+eiyield1ynew = edat.variables['totalyield'][95:105,:,:]
+
+edat2=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/equili/soytemp_historical_constco2_constcli_irrig_nofert_0.5x0.5.nc','r')
+eiyield2ynew = edat2.variables['totalyield'][95:105,:,:]
+
+edat3=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/equili/soytemp_historical_constco2_constcli_rf_fert_0.5x0.5.nc','r')
+eiyield3ynew = edat3.variables['totalyield'][95:105,:,:]
+
+edat4=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/equili/soytemp_historical_co2_constcli_rf_nofert_0.5x0.5.nc','r')
+eiyield4ynew = edat4.variables['totalyield'][95:105,:,:]
+
+edat5=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamhistorical_cru/heat/fertfao/fixedirr_new1/equili/soytemp_historical_constco2_cli_rf_nofert_0.5x0.5.nc','r')
+eiyield5ynew = edat5.variables['totalyield'][95:105,:,:]
  
 
 
@@ -77,6 +91,11 @@ iyield4ynew= ma.masked_where(iyield4ynew<=0.,iyield4ynew)
 iyield5ynew= ma.masked_where(iyield5ynew<=0.,iyield5ynew)
 iyield6ynew= ma.masked_where(iyield6ynew<=0.,iyield6ynew)
 
+eiyield1ynew= ma.masked_where(eiyield1ynew<=0.,eiyield1ynew)
+eiyield2ynew= ma.masked_where(eiyield2ynew<=0.,eiyield2ynew)
+eiyield3ynew= ma.masked_where(eiyield3ynew<=0.,eiyield3ynew)
+eiyield4ynew= ma.masked_where(eiyield4ynew<=0.,eiyield4ynew)
+eiyield5ynew= ma.masked_where(eiyield5ynew<=0.,eiyield5ynew)
 
 
 maizeto1,lonisam2=shiftgrid(0.5,maizeto,lonisam1,start=True)
@@ -85,10 +104,7 @@ maizeto1r,lonisam2=shiftgrid(0.5,maitrop,lonisam1,start=True)
 maizete1i,lonisam2=shiftgrid(0.5,maitempi,lonisam1,start=True)
 maizete1r,lonisam2=shiftgrid(0.5,maitemp,lonisam1,start=True)
 landfrac1,lonisam2=shiftgrid(0.5,landfrac,lonisam1,start=True)
-gridarea1,lonisam2=shiftgrid(0.5,gridarea,lonisam1,start=True)
-
-
-
+#gridarea1,lonisam2=shiftgrid(0.5,gridarea,lonisam1,start=True)
 
 iyield1ynew=ma.filled(iyield1ynew, fill_value=0.)
 iyield2ynew=ma.filled(iyield2ynew, fill_value=0.)
@@ -105,9 +121,23 @@ iyield5ynew= ma.masked_where(iyield5ynew<=0.,iyield5ynew)
 iyield6ynew= ma.masked_where(iyield6ynew<=0.,iyield6ynew)
 
 
+
+eiyield1ynew=ma.filled(eiyield1ynew, fill_value=0.)
+eiyield2ynew=ma.filled(eiyield2ynew, fill_value=0.)
+eiyield3ynew=ma.filled(eiyield3ynew, fill_value=0.)
+eiyield4ynew=ma.filled(eiyield4ynew, fill_value=0.)
+eiyield5ynew=ma.filled(eiyield5ynew, fill_value=0.)
+
+eiyield1ynew= ma.masked_where(eiyield1ynew<=0.,eiyield1ynew)
+eiyield2ynew= ma.masked_where(eiyield2ynew<=0.,eiyield2ynew)
+eiyield3ynew= ma.masked_where(eiyield3ynew<=0.,eiyield3ynew)
+eiyield4ynew= ma.masked_where(eiyield4ynew<=0.,eiyield4ynew)
+eiyield5ynew= ma.masked_where(eiyield5ynew<=0.,eiyield5ynew)
+
+
+
 #print iyield1ynew.shape
 mmarea=N.zeros((10,360,720))
-
 rmask=N.zeros((10,360,720))
 m3maize=N.zeros((10,360,720))
 maizeto2=N.zeros((10,360,720))
@@ -120,7 +150,7 @@ gridarea2=N.zeros((10,360,720))
 for i in range(0,10):
 	for x in range(0,360):
 		for y in range(0,720):
-                        mmarea[i,x,y]=marea[x,y]
+			mmarea[i,x,y]=marea[x,y]
                         rmask[i,x,y]=mask[x,y]
                         m3maize[i,x,y]=ncvar_maize[x,y] 
 			maizeto2[i,x,y]=maizeto1[i,x,y]
@@ -138,6 +168,14 @@ iyield4ynew= ma.masked_where(m3maize<=0.,iyield4ynew)
 iyield5ynew= ma.masked_where(m3maize<=0.,iyield5ynew)
 iyield6ynew= ma.masked_where(m3maize<=0.,iyield6ynew)
 
+eiyield1ynew= ma.masked_where(m3maize<=0.,eiyield1ynew)
+eiyield2ynew= ma.masked_where(m3maize<=0.,eiyield2ynew)
+eiyield3ynew= ma.masked_where(m3maize<=0.,eiyield3ynew)
+eiyield4ynew= ma.masked_where(m3maize<=0.,eiyield4ynew)
+eiyield5ynew= ma.masked_where(m3maize<=0.,eiyield5ynew)
+
+
+
 ii=N.zeros((9))
 nn=N.zeros((9))
 co=N.zeros((9))
@@ -147,16 +185,29 @@ snn=N.zeros((9))
 sco=N.zeros((9))
 scli=N.zeros((9))
 
+eii=N.zeros((9))
+enn=N.zeros((9))
+eco=N.zeros((9))
+ecli=N.zeros((9))
+esii=N.zeros((9))
+esnn=N.zeros((9))
+esco=N.zeros((9))
+escli=N.zeros((9))
+
 
 for i in range (1,9):
 	maizeto3=maizeto2
-	if i==4 or i==5:
+	if i==5:
+		i=9
+	if i==4 :
 	        maizeto3=ma.masked_where(rmask>5.0,maizeto3)
                 maizeto3=ma.masked_where(rmask<4.0,maizeto3)
 
 	else:
+		print i
 		maizeto3=ma.masked_where(rmask!=i,maizeto3)
-
+	if i==9:
+		i=5
 	allynew=N.average(iyield1ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
 	allyinew=N.average(iyield2ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
 	allynnew=N.average(iyield3ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
@@ -178,6 +229,26 @@ for i in range (1,9):
 	sco[i]=N.std(dd)
 	scli[i]=N.std(ee)
 
+        eallynew=N.average(eiyield1ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+        eallyinew=N.average(eiyield2ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+        eallynnew=N.average(eiyield3ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+        eallycnew=N.average(eiyield4ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+        eallyclinew=N.average(eiyield5ynew*mmarea*10000/gridarea2,weights=maizeto3*landfrac2*gridarea2,axis=(1,2))
+
+        ebb=(eallyinew-eallynew)/eallynew*100
+        ecc=(eallynnew-eallynew)/eallynew*100
+        edd=(eallycnew-eallynew)/eallynew*100
+        eee=(eallyclinew-eallynew)/eallynew*100
+
+        eii[i]=N.average(ebb)
+        enn[i]=N.average(ecc)
+        eco[i]=N.average(edd)
+        ecli[i]=N.average(eee)
+
+        esii[i]=N.std(ebb)
+        esnn[i]=N.std(ecc)
+        esco[i]=N.std(edd)
+        escli[i]=N.std(eee)
 
 allynew=N.average(iyield1ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
 allyinew=N.average(iyield2ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
@@ -200,10 +271,35 @@ snn[0]=N.std(cc)
 sco[0]=N.std(dd)
 scli[0]=N.std(ee)
 
-name=["Global","NA","SA","EU","Africa","Africa","USSR","China","SSEA"]
 
-fig = plt.figure(figsize=(4.3,3.5))
-plt.rc('font', weight='bold')
+
+eallynew=N.average(eiyield1ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+eallyinew=N.average(eiyield2ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+eallynnew=N.average(eiyield3ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+eallycnew=N.average(eiyield4ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+eallyclinew=N.average(eiyield5ynew*mmarea*10000/gridarea2,weights=maizeto2*landfrac2*gridarea2,axis=(1,2))
+
+ebb=(eallyinew-eallynew)/eallynew*100
+ecc=(eallynnew-eallynew)/eallynew*100
+edd=(eallycnew-eallynew)/eallynew*100
+eee=(eallyclinew-eallynew)/eallynew*100
+
+eii[0]=N.average(ebb)
+enn[0]=N.average(ecc)
+eco[0]=N.average(edd)
+ecli[0]=N.average(eee)
+
+esii[0]=N.std(ebb)
+esnn[0]=N.std(ecc)
+esco[0]=N.std(edd)
+escli[0]=N.std(eee)
+
+
+
+name=["Global","NA","SA","EU","Africa","PD","USSR","China","SSEA"]
+
+fig = plt.figure(figsize=(6.3,5.5))
+#plt.rc('font', weight='bold')
 plt.subplots_adjust(hspace=1)
 
 for idx in xrange(9):
@@ -214,22 +310,36 @@ for idx in xrange(9):
         ax.yaxis.set_ticks_position('left')
 
 	n_groups = 1
-	plt.ylim(-15, 60)
-	ax.set_yticks([-15,0,15,30,45,60 ])
+#	plt.ylim(-15, 50)
+#	ax.set_yticks([-15,0,15,30,45,60 ])
 
 	index = N.arange(n_groups)
 	bar_width = 0.01
 	opacity = 0.6
-        rects3 = plt.bar(index+0.05, cli[idx], bar_width, yerr=scli[idx],
-                 alpha=opacity,color='blue',
-                 label='Climate')
-        rects2 = plt.bar(index+0.05+bar_width, co[idx], bar_width, yerr=sco[idx],
+
+        arects2 = plt.bar(index+0.05, eco[idx], bar_width, yerr=esco[idx],hatch='..',
                  alpha=opacity,color='black',
                  label='CO$_{2}$')
-	rects0 = plt.bar(index+0.05+bar_width*2, ii[idx], bar_width,yerr=sii[idx],
+        brects2 = plt.bar(index+0.05+bar_width, co[idx], bar_width, yerr=sco[idx],
+                 alpha=opacity,color='black',
+                 label='CO$_{2}$')
+
+        crects3 = plt.bar(index+0.05+bar_width*2, ecli[idx], bar_width, yerr=escli[idx],hatch='..',
+                 alpha=opacity,color='blue',
+                 label='Climate')
+        drects3 = plt.bar(index+0.05+bar_width*3, cli[idx], bar_width, yerr=scli[idx],
+                 alpha=opacity,color='blue',
+                 label='Climate')
+	erects0 = plt.bar(index+0.05+bar_width*4, eii[idx], bar_width,yerr=esii[idx],hatch='..',
 	         alpha=0.9,color='red',
 	         label='Irrigation')
-	rects1 = plt.bar(index+bar_width*3+0.05, nn[idx], bar_width,yerr=snn[idx],
+        frects0 = plt.bar(index+0.05+bar_width*5, ii[idx], bar_width,yerr=sii[idx],
+                 alpha=0.9,color='red',
+                 label='Irrigation')
+        grects1 = plt.bar(index+bar_width*6+0.05, enn[idx], bar_width,yerr=esnn[idx],hatch='..',
+                 alpha=opacity,color='green',
+                 label='NF')
+	hrects1 = plt.bar(index+bar_width*7+0.05, nn[idx], bar_width,yerr=snn[idx],
 	         alpha=opacity,color='green',
 	         label='NF')
 	plt.tight_layout()
@@ -243,12 +353,12 @@ for idx in xrange(9):
 	    labelbottom='off') # labels along the bottom edge are off
 #	plt.axis('off')
 
-	ax.text(.55,.85,'{0}'.format(name[idx]),
+	ax.text(.25,.85,'{0}'.format(name[idx]),fontsize=12,
         	horizontalalignment='center',
         	transform=ax.transAxes)
 #	plt.title('{0}'.format(name[idx]))
 #plt.tight_layout()
-	ax.tick_params(labelsize=10)
+	ax.tick_params(labelsize=12)
 
-plt.savefig('soy_region.png')
+plt.savefig('soy_region_all3.png')
 plt.show()

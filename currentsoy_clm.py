@@ -13,13 +13,14 @@ from statsmodels.stats.weightstats import DescrStatsW
 import matplotlib.colors as colors
 
 nclu=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/m3yield_isam.nc','r')
-ncvar_maize = nclu.variables['maizey'][0,:,:]
+ncvar_maize = nclu.variables['soyy'][0,:,:]
+lonab = nclu.variables["lon"][:]
 
 region1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/RCP85_crop_150901.nc','r')
-maitrop = region1.variables['maize_trop'][4,:,:]
-maitemp = region1.variables['maize_temp'][4,:,:]
-maitropi = region1.variables['maize_trop_irrig'][4,:,:]
-maitempi = region1.variables['maize_temp_irrig'][4,:,:]
+maitrop = region1.variables['soy_trop'][4,:,:]
+maitemp = region1.variables['soy_temp'][4,:,:]
+maitropi = region1.variables['soy_trop_irrig'][4,:,:]
+maitempi = region1.variables['soy_temp_irrig'][4,:,:]
 maitrop= ma.masked_where(maitrop<=0,maitrop)
 maitropi= ma.masked_where(maitropi<=0,maitropi)
 maitemp= ma.masked_where(maitemp<=0,maitemp)
@@ -35,7 +36,7 @@ maitoatrop=maitrop+maitropi
 maizetotal = maizeto+maizetoi
 
 
-isam=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/plot/finalyield/isam/heat/isamhis_maiscaleifyield_heat.nc','r')
+isam=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/plot/finalyield/clm/clm45his_soyscaleifyield.nc','r')
 isamyield = N.average(isam.variables['yield'][95:105,:,:],axis=0)
 lona1 = isam.variables["lon"][:]
 lata1 = isam.variables["lat"][:]
@@ -52,38 +53,39 @@ yieldf= N.zeros((10, 360, 720))
 yieldf2= N.zeros((10, 360, 720))
 years2 = range(2090,2100)
 
-for i, year1 in enumerate(years2):
+clmtropfin= N.zeros((10, 360, 720))
+clmtempfin= N.zeros((10, 360, 720))
 
+for j in range(0,10):
 
-    base2 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/rcp85/heat/new1/maihisa/output/hmaizehisa.bgp-yearly_crop_{0}.nc".format(year1), mode='r')  
-    yield2 = base2.variables["yield"][0,:,:]
-    yieldf2[i, :, :] = yield2
-    lona1 = base2.variables["lon"][:]
-    lata1 = base2.variables["lat"][:]
+        clm2n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/soytrop_rcp85_co2_rf_fert_0.5x0.5.nc','r')
+        cc = N.flipud(clm2n.variables['yield'][84+j,:,:])
+        clmtropfin[j,:,:] = cc
 
-    base2a = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/rcp85/heat/new1/maihisa/output/hmaizehisa.bgp-yearly_crop_{0}.nc".format(year1), mode='r')
-    yield2a = base2a.variables["yield"][0,:,:]
-    yieldf2a[i, :, :] = yield2a
+        clm3n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/soytemp_rcp85_co2_rf_fert_0.5x0.5.nc','r')
+        dd = N.flipud(clm3n.variables['yield'][84+j,:,:])
+        clmtempfin[j,:,:] = dd
 
-yielda2=N.average(yieldf2,axis=0)
-yield_new2,lona11 = shiftgrid(180.5,yielda2,lona1,start=False)
-yielda2a=N.average(yieldf2a,axis=0)
-yield_new2a,lona11 = shiftgrid(180.5,yielda2a,lona1,start=False)
+yield_new2a=N.average(clmtropfin,axis=0)
+yield_new2=N.average(clmtempfin,axis=0)
 
 
 yield_new2= ma.masked_where(yield_new2<=0.,yield_new2)
 yield_new2a= ma.masked_where(yield_new2a<=0.,yield_new2a)
-yield_new2=ma.masked_where( maitoatemp[:,:]<=0,yield_new2)
+yield_new2=ma.masked_where( maitoatemp<=0,yield_new2)
 yield_new2=ma.filled(yield_new2, fill_value=0.)
-yield_new2a=ma.masked_where( maitoatrop[:,:]<=0,yield_new2a)
+
+yield_new2a=ma.masked_where( maitoatrop<=0,yield_new2a)
 yield_new2a=ma.filled(yield_new2a, fill_value=0.)
+
 yield_new2=yield_new2+yield_new2a
+
 yield_new2=ma.masked_where(isamyield<=0.,yield_new2)
 yieldisam=yield_new2-isamyield
 yieldisam= ma.masked_where(yieldisam==0.,yieldisam)
 
 
-ncvar_maize,lona11 = shiftgrid(180.5,ncvar_maize,lona1,start=False)
+ncvar_maize,lona11 = shiftgrid(180.5,ncvar_maize,lonab,start=False)
 yieldisam= ma.masked_where(ncvar_maize<=0.,yieldisam)
 
 
@@ -131,7 +133,7 @@ cbar.ax.tick_params(labelsize=12)
 plt.axis('off')
 plt.tight_layout()
 
-plt.savefig('mai2006_2015_rcp85a_a.jpg',dpi=300,bbox_inches='tight')
+plt.savefig('soy2006_2015_rcp85_clmc.jpg',dpi=300,bbox_inches='tight')
 plt.show()
 
 
