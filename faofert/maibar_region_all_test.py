@@ -319,10 +319,10 @@ for idx in xrange(1):
 
         arects2 = plt.bar(index+0.05, eco[idx], bar_width, yerr=esco[idx],hatch='..',
                  alpha=opacity,color='gray',
-                 label='Direct')
+                 label='Non-Interactive')
         brects2 = plt.bar(index+0.05+bar_width, co[idx], bar_width, yerr=sco[idx],
                  alpha=opacity,color='gray',
-                 label='Direct X Interactive')
+                 label='Interactive')
 
 	plt.tight_layout()
 

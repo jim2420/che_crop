@@ -230,18 +230,32 @@ for idx in xrange(1):
 #	         label='Climate+CO$_{2}$+NF+Irrigation')
 
 
+#        rects2 = plt.bar(index+0.05+bar_width*2, co[idx], bar_width, yerr=sco[idx],
+#                 alpha=opacity,color='black',
+#                 label='CO$_{2}$')
+#        rects3 = plt.bar(index+0.05+bar_width*3, cli[idx], bar_width, yerr=scli[idx],
+#                 alpha=opacity,color='blue',
+#                 label='Climate')
+#        rects1 = plt.bar(index+bar_width+0.05, nn[idx], bar_width,yerr=snn[idx],
+#                 alpha=opacity,color='red',
+#                 label='Irrigation')
+#        rects0 = plt.bar(index+0.05, ii[idx], bar_width,yerr=sii[idx],
+#                 alpha=1.0,color='green',
+#                 label='NF')
+
         rects2 = plt.bar(index+0.05+bar_width*2, co[idx], bar_width, yerr=sco[idx],
-                 alpha=opacity,color='black',
-                 label='CO$_{2}$')
+                 alpha=opacity,color='red',
+                 label='Base')
         rects3 = plt.bar(index+0.05+bar_width*3, cli[idx], bar_width, yerr=scli[idx],
                  alpha=opacity,color='blue',
-                 label='Climate')
+                 label='S_Cli')
         rects1 = plt.bar(index+bar_width+0.05, nn[idx], bar_width,yerr=snn[idx],
-                 alpha=opacity,color='red',
-                 label='Irrigation')
+                 alpha=opacity,color='black',
+                 label='S_CO$_{2}$')
         rects0 = plt.bar(index+0.05, ii[idx], bar_width,yerr=sii[idx],
                  alpha=1.0,color='green',
-                 label='NF')
+                 label='S_N')
+
 
 
 	plt.tight_layout()

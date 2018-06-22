@@ -331,22 +331,22 @@ yield_clmtfin8 = ma.masked_where(yield_clmtfin8<=0,yield_clmtfin8)
 yield_clmtfin8 = ma.masked_where(maizetof8<=0,yield_clmtfin8)
 yield_clmtfin8=ma.filled(yield_clmtfin8, fill_value=0.)
 
-base = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/soytemp_rcp45_constco2_rf_nofert_0.5x0.5.nc", mode='r')
-base2 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/soytemp_rcp45_co2_rf_nofert_0.5x0.5.nc", mode='r')
+base = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/soytemp_rcp45_constco2_rf_nofert_0.5x0.5.nc", mode='r')
+base2 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/soytemp_rcp45_co2_rf_nofert_0.5x0.5.nc", mode='r')
 
 lona1 = base.variables["lon"][:]
 lata1 = base.variables["lat"][:]
 yieldf = base.variables["totalyield"][84:94,:,:]
 yieldfa = base2.variables["totalyield"][84:94,:,:]
 
-basei = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/soytemp_rcp45_co2_rf_fert_0.5x0.5.nc", mode='r')
-base2i = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/soytemp_rcp45_co2_irrig_fert_0.5x0.5.nc", mode='r')
+basei = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/soytemp_rcp45_co2_rf_fert_0.5x0.5.nc", mode='r')
+base2i = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/soytemp_rcp45_co2_irrig_fert_0.5x0.5.nc", mode='r')
 
 yieldfi = basei.variables["totalyield"][84:94,:,:]
 yieldfai = base2i.variables["totalyield"][84:94,:,:]
        
-baseif = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/soytrop_rcp45_co2_rf_fert_0.5x0.5.nc", mode='r')
-base2if = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/soytrop_rcp45_co2_irrig_fert_0.5x0.5.nc", mode='r')
+baseif = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/soytrop_rcp45_co2_rf_fert_0.5x0.5.nc", mode='r')
+base2if = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/soytrop_rcp45_co2_irrig_fert_0.5x0.5.nc", mode='r')
 
 yieldfitr = baseif.variables["totalyield"][84:94,:,:]
 
@@ -354,22 +354,22 @@ yieldfaitr = base2if.variables["totalyield"][84:94,:,:]
 
 
 
-base8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/soytemp_rcp85_constco2_rf_nofert_0.5x0.5.nc", mode='r')
-base28 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/soytemp_rcp85_co2_rf_nofert_0.5x0.5.nc", mode='r')
+base8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/soytemp_rcp85_constco2_rf_nofert_0.5x0.5.nc", mode='r')
+base28 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/soytemp_rcp85_co2_rf_nofert_0.5x0.5.nc", mode='r')
 
 lona18 = base8.variables["lon"][:]
 lata18 = base8.variables["lat"][:]
 yieldf8 = base8.variables["totalyield"][84:94,:,:]
 yieldfa8 = base28.variables["totalyield"][84:94,:,:]
 
-basei8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/soytemp_rcp85_co2_rf_fert_0.5x0.5.nc", mode='r')
-base2i8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/soytemp_rcp85_co2_irrig_fert_0.5x0.5.nc", mode='r')
+basei8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/soytemp_rcp85_co2_rf_fert_0.5x0.5.nc", mode='r')
+base2i8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/soytemp_rcp85_co2_irrig_fert_0.5x0.5.nc", mode='r')
 
 yieldfi8 = basei8.variables["totalyield"][84:94,:,:]
 yieldfai8 = base2i8.variables["totalyield"][84:94,:,:]
 
-baseif8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/soytrop_rcp85_co2_rf_fert_0.5x0.5.nc", mode='r')
-base2if8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/soytrop_rcp85_co2_irrig_fert_0.5x0.5.nc", mode='r')
+baseif8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/soytrop_rcp85_co2_rf_fert_0.5x0.5.nc", mode='r')
+base2if8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/soytrop_rcp85_co2_irrig_fert_0.5x0.5.nc", mode='r')
 
 yieldfitr8 = baseif8.variables["totalyield"][84:94,:,:]
 
@@ -624,7 +624,7 @@ for i in range(1,9):
                 maizetofu8=ma.masked_where(rmask<4.0,maizetofu8)
 
         else:
-		print i
+		#print i
                 maizetohis=ma.masked_where(rmask!=i,maizetohis)
                 maizetofu=ma.masked_where(rmask!=i,maizetofu)
                 maizetofu8=ma.masked_where(rmask!=i,maizetofu8)
@@ -696,7 +696,7 @@ fisamb[0,1]=(clmb50-clmhisy)/clmhisy*100.
 fisamc[0,1]=(clmc50-clmhisy)/clmhisy*100.
 fisamd[0,1]=(clmd50-clmhisy)/clmhisy*100.
 
-print fisama,fisamb, fisamc, fisamd
+#print fisama,fisamb, fisamc, fisamd
 
 
 isama508=N.average(yieldagfa8,weights=maizetof8*gridarea2*landmask)
@@ -718,7 +718,12 @@ fisamc8[0,1]=(clmc508-clmhisy)/clmhisy*100.
 fisamd8[0,1]=(clmd508-clmhisy)/clmhisy*100.
 
 
-print fisama8,fisamb8, fisamc8, fisamd8
+#print fisama8,fisamb8, fisamc8, fisamd8
+print fisama[8,:],fisamb[8,:],fisamc[8,:],fisamd[8,:],fisama8[8,:],fisamb8[8,:],fisamc8[8,:],fisamd8[8,:]
+
+print fisama[0,:],fisamb[0,:],fisamc[0,:],fisamd[0,:],fisama8[0,:],fisamb8[0,:],fisamc8[0,:],fisamd8[0,:]
+
+#print fisama[8,:],fisamb[8,:],fisamc[8,:],fisamd[8,:],fisama8[8,:],fisamb8[8,:],fisamc8[8,:],fisamd8[8,:]
 
 
 
@@ -731,11 +736,11 @@ for idx in xrange(9):
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.yaxis.set_ticks_position('left')
-	if idx==0 or idx==3 or idx==6:
-                ax.set_yticklabels([-100,0,100,200,300,400])
-	else:
-		ax.set_yticklabels([])
-        plt.ylim(-100, 450)
+#	if idx==0 or idx==3 or idx==6:
+#                ax.set_yticklabels([-100,0,100,200,300,400])
+#	else:
+#		ax.set_yticklabels([])
+#        plt.ylim(-100, 450)
 	bar_width = 0.6
 	opacity = 0.5
 	plt.axhline(y=0.0, color='gray', linestyle=':')
@@ -814,7 +819,7 @@ for idx in xrange(9):
 	        ax.tick_params(labelsize=16)
 
 
-plt.savefig('soy2090_4585_regiona.png')
+plt.savefig('soy2090_4585_regiona1noac.png')
 plt.show()
 
 

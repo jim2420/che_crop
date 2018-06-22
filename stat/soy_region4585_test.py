@@ -734,21 +734,21 @@ for idx in xrange(1):
              if x==0:	
         	rects0 = plt.scatter(1, fisama[idx,x],s=80,
                    	color='gray',alpha=opacity,
-                 	label='ISAM-RCP4.5')
+                 	label='Non-Interactive-RCP4.5')
              else:
 		rects10 = plt.scatter(1, fisama[idx,x],
                         color='gray',facecolors='none',alpha=1,s=80,
-                        label='CLM-RCP4.5')
+                        label='Non-Interactive-RCP8.5')
 
         for x in range(0,2):
              if x==0:
                 rects08 = plt.scatter(1.5, fisama8[idx,x],s=80,
                         color='gray',alpha=0.5,marker='*',
-                        label='ISAM-RCP8.5')
+                        label='Interactive-RCP4.5')
              else:
                 rects108 = plt.scatter(1.5, fisama8[idx,x],facecolors='none',
                         color='gray',marker='*',alpha=1,s=80,
-                        label='CLM-RCP8.5')
+                        label='Interactive-RCP8.5')
 
                 ax.legend(scatterpoints=1,ncol=2)
 	        plt.tight_layout()
@@ -769,7 +769,7 @@ for idx in xrange(1):
 	        ax.tick_params(labelsize=16)
 
 
-plt.savefig('soy2090_4585_region1.png')
+plt.savefig('soy2090_4585_region1test.png')
 plt.show()
 
 

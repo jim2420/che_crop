@@ -45,10 +45,10 @@ isamyield=ma.filled(isamyield, fill_value=0.)
 
     
 region1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/RCP45_crop_150901.nc','r')
-maitropf = region1.variables['maize_trop'][84:94,:,:]
-maitempf = region1.variables['maize_temp'][84:94,:,:]
-maitropif=region1.variables['maize_trop_irrig'][84:94,:,:]
-maitempif=region1.variables['maize_temp_irrig'][84:94,:,:]
+maitropf = region1.variables['maize_trop'][:,:,:]
+maitempf = region1.variables['maize_temp'][:,:,:]
+maitropif=region1.variables['maize_trop_irrig'][:,:,:]
+maitempif=region1.variables['maize_temp_irrig'][:,:,:]
 
 maitropf=ma.masked_where(maitropf<=0,maitropf)
 maitropf=ma.filled(maitropf, fill_value=0.)
@@ -68,10 +68,10 @@ maizetof = maitropf+maitempf+maitropif+maitempif
 
 
 region18=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/RCP85_crop_150901.nc','r')
-maitropf8 = region18.variables['maize_trop'][84:94,:,:]
-maitempf8 = region18.variables['maize_temp'][84:94,:,:]
-maitropif8=region18.variables['maize_trop_irrig'][84:94,:,:]
-maitempif8=region18.variables['maize_temp_irrig'][84:94,:,:]
+maitropf8 = region18.variables['maize_trop'][:,:,:]
+maitempf8 = region18.variables['maize_temp'][:,:,:]
+maitropif8=region18.variables['maize_trop_irrig'][:,:,:]
+maitempif8=region18.variables['maize_temp_irrig'][:,:,:]
 
 maitropf8=ma.masked_where(maitropf8<=0,maitropf8)
 maitropf8=ma.filled(maitropf8, fill_value=0.)
@@ -89,50 +89,50 @@ maizetorf8=maitropf8+maitempf8
 maizetoif8=maitropif8+maitempif8
 maizetof8 = maitropf8+maitempf8+maitropif8+maitempif8
 
-clmtropf=N.zeros((10,360,720))
-clmtempf=N.zeros((10,360,720))
-clmtropfi=N.zeros((10,360,720))
-clmtempfi=N.zeros((10,360,720))
+clmtropf=N.zeros((95,360,720))
+clmtempf=N.zeros((95,360,720))
+clmtropfi=N.zeros((95,360,720))
+clmtempfi=N.zeros((95,360,720))
 
-for j in range(0,10):
+for j in range(0,95):
 	clm=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetrop_rcp45_constco2_rf_nofert_0.5x0.5.nc','r')
-	aa= N.flipud(clm.variables['yield'][84+j,:,:])
+	aa= N.flipud(clm.variables['yield'][j,:,:])
 	clmtropf[j,:,:] = aa
 	
 	clm1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetemp_rcp45_constco2_rf_nofert_0.5x0.5.nc','r')
-	bb = N.flipud(clm1.variables['yield'][84+j,:,:])
+	bb = N.flipud(clm1.variables['yield'][j,:,:])
 	clmtempf[j,:,:] = bb
 
 	clm2=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetrop_rcp45_co2_rf_nofert_0.5x0.5.nc','r')
-	cc = N.flipud(clm2.variables['yield'][84+j,:,:])
+	cc = N.flipud(clm2.variables['yield'][j,:,:])
 	clmtropfi[j,:,:] = cc
 
 	clm3=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetemp_rcp45_co2_rf_nofert_0.5x0.5.nc','r')
-	dd = N.flipud(clm3.variables['yield'][84+j,:,:])
+	dd = N.flipud(clm3.variables['yield'][j,:,:])
 	clmtempfi[j,:,:] = dd
 
 
 
-clmtropf8=N.zeros((10,360,720))
-clmtempf8=N.zeros((10,360,720))
-clmtropfi8=N.zeros((10,360,720))
-clmtempfi8=N.zeros((10,360,720))
+clmtropf8=N.zeros((95,360,720))
+clmtempf8=N.zeros((95,360,720))
+clmtropfi8=N.zeros((95,360,720))
+clmtempfi8=N.zeros((95,360,720))
 
-for j in range(0,10):
+for j in range(0,95):
         clm=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetrop_rcp85_constco2_rf_nofert_0.5x0.5.nc','r')
-        aa= N.flipud(clm.variables['yield'][84+j,:,:])
+        aa= N.flipud(clm.variables['yield'][j,:,:])
         clmtropf8[j,:,:] = aa
 
         clm1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetemp_rcp85_constco2_rf_nofert_0.5x0.5.nc','r')
-        bb = N.flipud(clm1.variables['yield'][84+j,:,:])
+        bb = N.flipud(clm1.variables['yield'][j,:,:])
         clmtempf8[j,:,:] = bb
 
         clm2=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetrop_rcp85_co2_rf_nofert_0.5x0.5.nc','r')
-        cc = N.flipud(clm2.variables['yield'][84+j,:,:])
+        cc = N.flipud(clm2.variables['yield'][j,:,:])
         clmtropfi8[j,:,:] = cc
 
         clm3=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetemp_rcp85_co2_rf_nofert_0.5x0.5.nc','r')
-        dd = N.flipud(clm3.variables['yield'][84+j,:,:])
+        dd = N.flipud(clm3.variables['yield'][j,:,:])
         clmtempfi8[j,:,:] = dd
 
 
@@ -214,51 +214,51 @@ yield_clmtfi8=ma.filled(yield_clmtfi8, fill_value=0.)
 
 
 
-clmtropfn=N.zeros((10,360,720))
-clmtempfn=N.zeros((10,360,720))
-clmtropfin=N.zeros((10,360,720))
-clmtempfin=N.zeros((10,360,720))
+clmtropfn=N.zeros((95,360,720))
+clmtempfn=N.zeros((95,360,720))
+clmtropfin=N.zeros((95,360,720))
+clmtempfin=N.zeros((95,360,720))
 
-for j in range(0,10):
+for j in range(0,95):
         clmn=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetrop_rcp45_co2_rf_fert_0.5x0.5.nc','r')
-        aa= N.flipud(clmn.variables['yield'][84+j,:,:])
+        aa= N.flipud(clmn.variables['yield'][j,:,:])
         clmtropfn[j,:,:] = aa
 
         clm1n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetemp_rcp45_co2_rf_fert_0.5x0.5.nc','r')
-        bb = N.flipud(clm1n.variables['yield'][84+j,:,:])
+        bb = N.flipud(clm1n.variables['yield'][j,:,:])
         clmtempfn[j,:,:] = bb
 
         clm2n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetrop_rcp45_co2_irrig_fert_0.5x0.5.nc','r')
-        cc = N.flipud(clm2n.variables['yield'][84+j,:,:])
+        cc = N.flipud(clm2n.variables['yield'][j,:,:])
         clmtropfin[j,:,:] = cc
 
         clm3n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetemp_rcp45_co2_irrig_fert_0.5x0.5.nc','r')
-        dd = N.flipud(clm3n.variables['yield'][84+j,:,:])
+        dd = N.flipud(clm3n.variables['yield'][j,:,:])
         clmtempfin[j,:,:] = dd
 
 
 
 
-clmtropfn8=N.zeros((10,360,720))
-clmtempfn8=N.zeros((10,360,720))
-clmtropfin8=N.zeros((10,360,720))
-clmtempfin8=N.zeros((10,360,720))
+clmtropfn8=N.zeros((95,360,720))
+clmtempfn8=N.zeros((95,360,720))
+clmtropfin8=N.zeros((95,360,720))
+clmtempfin8=N.zeros((95,360,720))
 
-for j in range(0,10):
+for j in range(0,95):
         clmn=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetrop_rcp85_co2_rf_fert_0.5x0.5.nc','r')
-        aa= N.flipud(clmn.variables['yield'][84+j,:,:])
+        aa= N.flipud(clmn.variables['yield'][j,:,:])
         clmtropfn8[j,:,:] = aa
 
         clm1n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetemp_rcp85_co2_rf_fert_0.5x0.5.nc','r')
-        bb = N.flipud(clm1n.variables['yield'][84+j,:,:])
+        bb = N.flipud(clm1n.variables['yield'][j,:,:])
         clmtempfn8[j,:,:] = bb
 
         clm2n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetrop_rcp85_co2_irrig_fert_0.5x0.5.nc','r')
-        cc = N.flipud(clm2n.variables['yield'][84+j,:,:])
+        cc = N.flipud(clm2n.variables['yield'][j,:,:])
         clmtropfin8[j,:,:] = cc
 
         clm3n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetemp_rcp85_co2_irrig_fert_0.5x0.5.nc','r')
-        dd = N.flipud(clm3n.variables['yield'][84+j,:,:])
+        dd = N.flipud(clm3n.variables['yield'][j,:,:])
         clmtempfin8[j,:,:] = dd
 
 #clmtropfn=N.flipud(clmtropfn)
@@ -336,21 +336,21 @@ base2 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp
 
 lona1 = base.variables["lon"][:]
 lata1 = base.variables["lat"][:]
-yieldf = base.variables["totalyield"][84:94,:,:]
-yieldfa = base2.variables["totalyield"][84:94,:,:]
+yieldf = base.variables["totalyield"][:,:,:]
+yieldfa = base2.variables["totalyield"][:,:,:]
 
 basei = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/maizetemp_rcp45_co2_rf_fert_0.5x0.5.nc", mode='r')
 base2i = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/maizetemp_rcp45_co2_irrig_fert_0.5x0.5.nc", mode='r')
 
-yieldfi = basei.variables["totalyield"][84:94,:,:]
-yieldfai = base2i.variables["totalyield"][84:94,:,:]
+yieldfi = basei.variables["totalyield"][:,:,:]
+yieldfai = base2i.variables["totalyield"][:,:,:]
        
 baseif = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/maizetrop_rcp45_co2_rf_fert_0.5x0.5.nc", mode='r')
 base2if = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/maizetrop_rcp45_co2_irrig_fert_0.5x0.5.nc", mode='r')
 
-yieldfitr = baseif.variables["totalyield"][84:94,:,:]
+yieldfitr = baseif.variables["totalyield"][:,:,:]
 
-yieldfaitr = base2if.variables["totalyield"][84:94,:,:]
+yieldfaitr = base2if.variables["totalyield"][:,:,:]
 
 
 
@@ -359,21 +359,21 @@ base28 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrc
 
 lona18 = base8.variables["lon"][:]
 lata18 = base8.variables["lat"][:]
-yieldf8 = base8.variables["totalyield"][84:94,:,:]
-yieldfa8 = base28.variables["totalyield"][84:94,:,:]
+yieldf8 = base8.variables["totalyield"][:,:,:]
+yieldfa8 = base28.variables["totalyield"][:,:,:]
 
 basei8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/maizetemp_rcp85_co2_rf_fert_0.5x0.5.nc", mode='r')
 base2i8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/maizetemp_rcp85_co2_irrig_fert_0.5x0.5.nc", mode='r')
 
-yieldfi8 = basei8.variables["totalyield"][84:94,:,:]
-yieldfai8 = base2i8.variables["totalyield"][84:94,:,:]
+yieldfi8 = basei8.variables["totalyield"][:,:,:]
+yieldfai8 = base2i8.variables["totalyield"][:,:,:]
 
 baseif8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/maizetrop_rcp85_co2_rf_fert_0.5x0.5.nc", mode='r')
 base2if8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/maizetrop_rcp85_co2_irrig_fert_0.5x0.5.nc", mode='r')
 
-yieldfitr8 = baseif8.variables["totalyield"][84:94,:,:]
+yieldfitr8 = baseif8.variables["totalyield"][:,:,:]
 
-yieldfaitr8 = base2if8.variables["totalyield"][84:94,:,:]
+yieldfaitr8 = base2if8.variables["totalyield"][:,:,:]
 
 
 
@@ -511,7 +511,7 @@ yieldagfd18=yield_clmtfin8
 
 a1=2090
 a2=2100
-x=a2-a1
+x=95
 clmya=N.zeros((x,360,720))
 clmyb=N.zeros((x,360,720))
 clmyc=N.zeros((x,360,720))
@@ -522,25 +522,25 @@ isamyb=N.zeros((x,360,720))
 isamyc=N.zeros((x,360,720))
 frac=N.zeros((x,360,720))
 
-frachis=N.zeros((10,360,720))
-clmhis=N.zeros((10,360,720))
-isamhis=N.zeros((10,360,720))
+frachis=N.zeros((95,360,720))
+clmhis=N.zeros((95,360,720))
+isamhis=N.zeros((95,360,720))
 
 
 
-clmya8=N.zeros((x,360,720))
-clmyb8=N.zeros((x,360,720))
-clmyc8=N.zeros((x,360,720))
-isamyd8=N.zeros((x,360,720))
-clmyd8=N.zeros((x,360,720))
-isamya8=N.zeros((x,360,720))
-isamyb8=N.zeros((x,360,720))
-isamyc8=N.zeros((x,360,720))
-frac8=N.zeros((x,360,720))
+clmya8=N.zeros((95,360,720))
+clmyb8=N.zeros((95,360,720))
+clmyc8=N.zeros((95,360,720))
+isamyd8=N.zeros((95,360,720))
+clmyd8=N.zeros((95,360,720))
+isamya8=N.zeros((95,360,720))
+isamyb8=N.zeros((95,360,720))
+isamyc8=N.zeros((95,360,720))
+frac8=N.zeros((95,360,720))
 
-frachis8=N.zeros((10,360,720))
-clmhis8=N.zeros((10,360,720))
-isamhis8=N.zeros((10,360,720))
+frachis8=N.zeros((95,360,720))
+clmhis8=N.zeros((95,360,720))
+isamhis8=N.zeros((95,360,720))
 
 
 
@@ -559,9 +559,9 @@ fisamc8=N.zeros((9,2))
 fisamd8=N.zeros((9,2))
 
 
-area1=NetCDFFile('/project/projectdirs/m1602/datasets4.full/surfdata_05x05.nc','r')
+area1=NetCDFFile('/global/project/projectdirs/m1602/datasets4.full/arbit_init_state_05x05.nc','r')
 lonaa=area1.variables['lon'][:]
-mask1 = area1.variables['REGION_MASK_CRU_NCEP'][:,:]
+mask1 = area1.variables['REGION_MASK'][:,:]
 mask,lona = shiftgrid(180.5,mask1,lonaa,start=False)
 
 nclu=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/m3yield_isam.nc','r')
@@ -572,22 +572,22 @@ ncvar_maize,lona = shiftgrid(180.5,ncvar_maize1,lonaa,start=False)
 area=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/gridareahalf_isam.nc','r')
 gridarea = area.variables['cell_area'][:,:]
 gridarea,lona = shiftgrid(180.5,gridarea,lonaa,start=False)
-gridarea2=N.zeros((10,360,720))
-mmarea=N.zeros((10,360,720))
-rmask=N.zeros((10,360,720))
-maizeto2=N.zeros((10,360,720))
-landmask=N.zeros((10,360,720))
+gridarea2=N.zeros((95,360,720))
+mmarea=N.zeros((95,360,720))
+rmask=N.zeros((95,360,720))
+maizeto2=N.zeros((95,360,720))
+landmask=N.zeros((95,360,720))
 
-for i in range(0,10):
+for i in range(0,95):
 	for x in range(0,360):
 		for y in range(0,720):
 			mmarea[i,x,y]=ncvar_maize[x,y]
 			rmask[i,x,y]=mask[x,y]
-                        maizeto2[i,x,y]=maizeto[i,x,y]
+                #        maizeto2[i,x,y]=maizeto[i,x,y]
 			gridarea2[i,x,y]=gridarea[x,y]
 			landmask[i,x,y]=landfrac[x,y]
-isamyield= ma.masked_where(mmarea<=0.,isamyield)
-clmyield= ma.masked_where(mmarea<=0.,clmyield)
+#isamyield= ma.masked_where(mmarea<=0.,isamyield)
+#clmyield= ma.masked_where(mmarea<=0.,clmyield)
 yieldagfa= ma.masked_where(mmarea<=0.,yieldagfa)
 yieldagfb= ma.masked_where(mmarea<=0.,yieldagfb)
 yieldagfc= ma.masked_where(mmarea<=0.,yieldagfc)
@@ -606,18 +606,16 @@ yieldagfb18= ma.masked_where(mmarea<=0.,yieldagfb18)
 yieldagfc18= ma.masked_where(mmarea<=0.,yieldagfc18)
 yieldagfd18= ma.masked_where(mmarea<=0.,yieldagfd18)
 
-
-
-
-for i in range(1,9):
-	maizetohis=maizeto2
+for i in range(8,9):
+	print i
+#	maizetohis=maizeto2
 	maizetofu=maizetof
         maizetofu8=maizetof8
 	if i==5 :
 		i=9#Pacific developed
 	if i==4 :
-		maizetohis=ma.masked_where(rmask>5.0,maizetohis)
-                maizetohis=ma.masked_where(rmask<4.0,maizetohis)
+#		maizetohis=ma.masked_where(rmask>5.0,maizetohis)
+#                maizetohis=ma.masked_where(rmask<4.0,maizetohis)
                 maizetofu=ma.masked_where(rmask>5.0,maizetofu)
                 maizetofu=ma.masked_where(rmask<4.0,maizetofu)
                 maizetofu8=ma.masked_where(rmask>5.0,maizetofu8)
@@ -625,54 +623,58 @@ for i in range(1,9):
 
         else:
 		#print i
-                maizetohis=ma.masked_where(rmask!=i,maizetohis)
+#                maizetohis=ma.masked_where(rmask!=i,maizetohis)
                 maizetofu=ma.masked_where(rmask!=i,maizetofu)
                 maizetofu8=ma.masked_where(rmask!=i,maizetofu8)
 	if i==9 :
                 i=5
 
 	#print maizetohis1[9,211,166]
-        isamhisy=N.average(N.average(isamyield,weights=maizetohis*gridarea2*landmask,axis=(1,2)))
-        clmhisy=N.average(N.average(clmyield,weights=maizetohis*gridarea2*landmask,axis=(1,2)))
+ #       isamhisy=N.average(N.average(isamyield,weights=maizetohis*gridarea2*landmask,axis=(1,2)))
+ #       clmhisy=N.average(N.average(clmyield,weights=maizetohis*gridarea2*landmask,axis=(1,2)))
 
-        isama50=N.average(N.average(yieldagfa,weights=maizetofu*gridarea2*landmask,axis=(1,2)))
-        clma50=N.average(N.average(yieldagfa1,weights=maizetofu*gridarea2*landmask,axis=(1,2)))
-        isamb50=N.average(N.average(yieldagfb,weights=maizetofu*gridarea2*landmask,axis=(1,2)))
-        clmb50=N.average(N.average(yieldagfb1,weights=maizetofu*gridarea2*landmask,axis=(1,2)))
-        isamc50=N.average(N.average(yieldagfc,weights=maizetofu*gridarea2*landmask,axis=(1,2)))
-        clmc50=N.average(N.average(yieldagfc1,weights=maizetofu*gridarea2*landmask,axis=(1,2)))
-        isamd50=N.average(N.average(yieldagfd,weights=maizetofu*gridarea2*landmask,axis=(1,2)))
-        clmd50=N.average(N.average(yieldagfd1,weights=maizetofu*gridarea2*landmask,axis=(1,2)))
+#        isama50=N.sum(yieldagfa*maizetofu*gridarea2*landmask/10000,axis=(1,2))
+#        clma50=N.sum(yieldagfa1*maizetofu*gridarea2*landmask/10000,axis=(1,2))
+#        isamb50=N.sum(yieldagfb*maizetofu*gridarea2*landmask/10000,axis=(1,2))
+#        clmb50=N.sum(yieldagfb1*maizetofu*gridarea2*landmask/10000,axis=(1,2))
+#        isamc50=N.sum(yieldagfc*maizetofu*gridarea2*landmask/10000,axis=(1,2))
+#        clmc50=N.sum(yieldagfc1*maizetofu*gridarea2*landmask/10000,axis=(1,2))
+#        isamd50=N.sum(yieldagfd*maizetofu*gridarea2*landmask/10000,axis=(1,2))
+#        clmd50=N.sum(yieldagfd1*maizetofu*gridarea2*landmask/10000,axis=(1,2))
 	#print isama50,isamhisy,clma50,clmhisy
-	fisama[i,0]=(isama50-isamhisy)/isamhisy*100.
-        fisamb[i,0]=(isamb50-isamhisy)/isamhisy*100.
-        fisamc[i,0]=(isamc50-isamhisy)/isamhisy*100.
-        fisamd[i,0]=(isamd50-isamhisy)/isamhisy*100.
-        fisama[i,1]=(clma50-clmhisy)/clmhisy*100.
-        fisamb[i,1]=(clmb50-clmhisy)/clmhisy*100.
-        fisamc[i,1]=(clmc50-clmhisy)/clmhisy*100.
-        fisamd[i,1]=(clmd50-clmhisy)/clmhisy*100.
 
 
-        isama508=N.average(N.average(yieldagfa8,weights=maizetofu8*gridarea2*landmask,axis=(1,2)))
-        clma508=N.average(N.average(yieldagfa18,weights=maizetofu8*gridarea2*landmask,axis=(1,2)))
-        isamb508=N.average(N.average(yieldagfb8,weights=maizetofu8*gridarea2*landmask,axis=(1,2)))
-        clmb508=N.average(N.average(yieldagfb18,weights=maizetofu8*gridarea2*landmask,axis=(1,2)))
-        isamc508=N.average(N.average(yieldagfc8,weights=maizetofu8*gridarea2*landmask,axis=(1,2)))
-        clmc508=N.average(N.average(yieldagfc18,weights=maizetofu8*gridarea2*landmask,axis=(1,2)))
-        isamd508=N.average(N.average(yieldagfd8,weights=maizetofu8*gridarea2*landmask,axis=(1,2)))
-        clmd508=N.average(N.average(yieldagfd18,weights=maizetofu8*gridarea2*landmask,axis=(1,2)))
+#        isama508=N.sum(yieldagfa8*maizetofu8*gridarea2*landmask/10000,axis=(1,2))
+#        clma508=N.sum(yieldagfa18*maizetofu8*gridarea2*landmask/10000,axis=(1,2))
+#        isamb508=N.sum(yieldagfb8*maizetofu8*gridarea2*landmask/10000,axis=(1,2))
+#        clmb508=N.sum(yieldagfb18*maizetofu8*gridarea2*landmask/10000,axis=(1,2))
+#        isamc508=N.sum(yieldagfc8*maizetofu8*gridarea2*landmask/10000,axis=(1,2))
+#        clmc508=N.sum(yieldagfc18*maizetofu8*gridarea2*landmask/10000,axis=(1,2))
+#        isamd508=N.sum(yieldagfd8*maizetofu8*gridarea2*landmask/10000,axis=(1,2))
+#        clmd508=N.sum(yieldagfd18*maizetofu8*gridarea2*landmask/10000,axis=(1,2))
+
+        isama50=N.average(yieldagfa,weights=maizetofu*gridarea2*landmask,axis=(1,2))
+        clma50=N.average(yieldagfa1,weights=maizetofu*gridarea2*landmask,axis=(1,2))
+        isamb50=N.average(yieldagfb,weights=maizetofu*gridarea2*landmask,axis=(1,2))
+        clmb50=N.average(yieldagfb1,weights=maizetofu*gridarea2*landmask,axis=(1,2))
+        isamc50=N.average(yieldagfc,weights=maizetofu*gridarea2*landmask,axis=(1,2))
+        clmc50=N.average(yieldagfc1,weights=maizetofu*gridarea2*landmask,axis=(1,2))
+        isamd50=N.average(yieldagfd,weights=maizetofu*gridarea2*landmask,axis=(1,2))
+        clmd50=N.average(yieldagfd1,weights=maizetofu*gridarea2*landmask,axis=(1,2))
+
+        isama508=N.average(yieldagfa8,weights=maizetofu8*gridarea2*landmask,axis=(1,2))
+        clma508=N.average(yieldagfa18,weights=maizetofu8*gridarea2*landmask,axis=(1,2))
+        isamb508=N.average(yieldagfb8,weights=maizetofu8*gridarea2*landmask,axis=(1,2))
+        clmb508=N.average(yieldagfb18,weights=maizetofu8*gridarea2*landmask,axis=(1,2))
+        isamc508=N.average(yieldagfc8,weights=maizetofu8*gridarea2*landmask,axis=(1,2))
+        clmc508=N.average(yieldagfc18,weights=maizetofu8*gridarea2*landmask,axis=(1,2))
+        isamd508=N.average(yieldagfd8,weights=maizetofu8*gridarea2*landmask,axis=(1,2))
+        clmd508=N.average(yieldagfd18,weights=maizetofu8*gridarea2*landmask,axis=(1,2))
+
         #print isama50,isamhisy,clma50,clmhisy
-        fisama8[i,0]=(isama508-isamhisy)/isamhisy*100.
-        fisamb8[i,0]=(isamb508-isamhisy)/isamhisy*100.
-        fisamc8[i,0]=(isamc508-isamhisy)/isamhisy*100.
-        fisamd8[i,0]=(isamd508-isamhisy)/isamhisy*100.
-        fisama8[i,1]=(clma508-clmhisy)/clmhisy*100.
-        fisamb8[i,1]=(clmb508-clmhisy)/clmhisy*100.
-        fisamc8[i,1]=(clmc508-clmhisy)/clmhisy*100.
-        fisamd8[i,1]=(clmd508-clmhisy)/clmhisy*100.
 
 
+N.savetxt('maic.csv', (isama50,isamb50,isamc50,isamd50,clma50,clmb50,clmc50,clmd50,isama508,isamb508,isamc508,isamd508,clma508,clmb508,clmc508,clmd508), delimiter=',')
 
 
 isamhisy=N.average(isamyield,weights=maizeto2*gridarea2*landmask)
@@ -816,7 +818,7 @@ for idx in xrange(9):
 	        ax.tick_params(labelsize=16)
 
 
-plt.savefig('mai2090_4585_regiona1.png')
+#plt.savefig('mai2090_4585_regiona1.png')
 plt.show()
 
 

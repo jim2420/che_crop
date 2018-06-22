@@ -727,9 +727,13 @@ print fisama[0,:],fisamb[0,:],fisamc[0,:],fisamd[0,:],fisama8[0,:],fisamb8[0,:],
 
 fig = plt.figure(figsize=(8,8))
 #plt.rc('font', weight='bold')
+n_groups = 1
+index = N.arange(n_groups)
+bar_width = 0.007
+opacity = 0.6
 for idx in xrange(9):
         ax = fig.add_subplot(3, 3, idx+1)
-        ax.spines['bottom'].set_visible(False)
+        #ax.spines['bottom'].set_visible(False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.yaxis.set_ticks_position('left')
@@ -737,64 +741,65 @@ for idx in xrange(9):
         #        ax.set_yticklabels([-100,0,100,200,300,400])
 #	else:
 	#	ax.set_yticklabels([])
-       # plt.ylim(-100, 450)
-	bar_width = 0.6
-	opacity = 0.5
-	plt.axhline(y=0.0, color='gray', linestyle=':')
+        #plt.ylim(-80, 220)
+	ax.set_xticks([0.038,0.102])
+        ax.set_xticklabels(["RCP4.5","RCP8.5"])
+
+#	plt.axhline(y=0.0, color='gray', linestyle=':')
 	for x in range(0,2):
              if x==0:	
-        	rects0 = plt.scatter(1, fisama[idx,x],s=80,
+        	rects0 = plt.bar(0.01+index, fisama[idx,x],bar_width,hatch='..',
                    	color='b',alpha=opacity,
                  	label='CLIMATE')
-		rects4 = plt.scatter(2, fisamb[idx,x],
-		                 	color='k',alpha=opacity,s=80,
+		rects4 = plt.bar(0.01+index+bar_width*2, fisamb[idx,x],bar_width,hatch='..',
+		                 	color='k',alpha=opacity,
 		                 	label='CO2+CLIMATE')
-	        rects1 = plt.scatter(3, fisamc[idx,x],
-	                 	color='g',alpha=opacity,s=80,
+	        rects1 = plt.bar(0.01+index+bar_width*4, fisamc[idx,x],bar_width,hatch='..',
+	                 	color='g',alpha=opacity,
 	                 	label='CO2+CLIMATE+N')
-	        rects2 = plt.scatter(4 , fisamd[idx,x], 
-                	        color='r',alpha=opacity,s=80,
+	        rects2 = plt.bar(0.01+index+bar_width*6 , fisamd[idx,x], bar_width,hatch='..',
+                	        color='r',alpha=opacity,
                         	label='CO2+CLIMATE+N+I')
              else:
-		rects10 = plt.scatter(1, fisama[idx,x],
-                        color='b',facecolors='none',alpha=1,s=80,
+		rects10 = plt.bar(0.01+index+bar_width*1, fisama[idx,x],bar_width,
+                        color='b',alpha=opacity,
                         label='CLIMATE')
-                rects14 = plt.scatter(2, fisamb[idx,x],
-                                        color='k',facecolors='none',alpha=1,s=80,
+                rects14 = plt.bar(0.01+index+bar_width*3, fisamb[idx,x],bar_width,
+                                        color='k',alpha=opacity,
                                         label='CO2+CLIMATE')
-                rects11 = plt.scatter(3, fisamc[idx,x],
-                                color='g',facecolors='none',alpha=1,s=80,
+                rects11 = plt.bar(0.01+index+bar_width*5, fisamc[idx,x],bar_width,
+                                color='g',alpha=opacity,
                                 label='CO2+CLIMATE+N')
-                rects12 = plt.scatter(4 , fisamd[idx,x],s=80,
-                                color='r',facecolors='none',alpha=1,
+                rects12 = plt.bar(0.01+index+bar_width*7 , fisamd[idx,x],bar_width,
+                                color='r',alpha=opacity,
                                 label='CO2+CLIMATE+N+I')
 
         for x in range(0,2):
              if x==0:
-                rects08 = plt.scatter(1.5, fisama8[idx,x],s=80,
-                        color='b',alpha=0.5,marker='*',
+                rects08 = plt.bar(0.01+index+bar_width*9, fisama8[idx,x],bar_width,hatch='..',
+                        color='b',alpha=opacity,
                         label='CLIMATE')
-                rects48 = plt.scatter(2.5, fisamb8[idx,x],
-                                        color='k',alpha=0.5,s=80,marker='*',
+                rects48 = plt.bar(0.01+index+bar_width*11, fisamb8[idx,x],bar_width,hatch='..',
+                                        color='k',alpha=opacity,
                                         label='CO2+CLIMATE')
-                rects18 = plt.scatter(3.5, fisamc8[idx,x],marker='*',
-                                color='g',alpha=0.5,s=80,
+                rects18 = plt.bar(0.01+index+bar_width*13, fisamc8[idx,x],bar_width,hatch='..',
+                                color='g',alpha=opacity,
                                 label='CO2+CLIMATE+N')
-                rects28 = plt.scatter(4.5 , fisamd8[idx,x],marker='*',
-                                color='r',alpha=0.5,s=80,
+                rects28 = plt.bar(0.01+index+bar_width*15 , fisamd8[idx,x],bar_width,hatch='..',
+                                color='r',alpha=opacity,
                                 label='CO2+CLIMATE+N+I')
              else:
-                rects108 = plt.scatter(1.5, fisama8[idx,x],facecolors='none',
-                        color='b',marker='*',alpha=1,s=80,
+                rects108 = plt.bar(0.01+index+bar_width*10, fisama8[idx,x],bar_width,
+                        color='b',alpha=opacity,
                         label='CLIMATE')
-                rects148 = plt.scatter(2.5, fisamb8[idx,x],facecolors='none',
-                                        color='k',marker='*',alpha=1,s=80,
+                rects148 = plt.bar(0.01+index+bar_width*12, fisamb8[idx,x],bar_width,
+                                        color='k',alpha=opacity,
                                         label='CO2+CLIMATE')
-                rects118 = plt.scatter(3.5, fisamc8[idx,x],facecolors='none',
-                                color='g',marker='*',alpha=1,s=80,
+                rects118 = plt.bar(0.01+index+bar_width*14, fisamc8[idx,x],bar_width,
+                                color='g',alpha=opacity,
                                 label='CO2+CLIMATE+N')
-                rects128 = plt.scatter(4.5 , fisamd8[idx,x],s=80,facecolors='none',
-                                color='r',marker='*',alpha=1,
+                rects128 = plt.bar(0.01+index+bar_width*16 , fisamd8[idx,x],bar_width,
+                                color='r',alpha=opacity,
                                 label='CO2+CLIMATE+N+I')
 
 
@@ -802,21 +807,22 @@ for idx in xrange(9):
 	        plt.tick_params(
         	    axis='x',          # changes apply to the x-axis
       	      	    which='both',      # both major and minor ticks are affected
-                    bottom='off',      # ticks along the bottom edge are off
+                    bottom='on',      # ticks along the bottom edge are off
                     top='off',         # ticks along the top edge are off
-                    labelbottom='off') # labels along the bottom edge are off
+                    labelbottom='on') # labels along the bottom edge are off
 
 	        #plt.ylim(-35,90)
 	        #plt.yticks(N.arange(-35,90,10))
 
 	#plt.xticks(index + bar_width+0.2, ('ISAM','CLM'))
-	        ax.text(.5,.85,'{0}'.format(name[idx]),
-        	        horizontalalignment='center',
-                	transform=ax.transAxes,fontsize=16)
+		ax.set_title('{0}'.format(name[idx]))
+#	        ax.text(.5,.85,'{0}'.format(name[idx]),
+#        	        horizontalalignment='center',
+#                	transform=ax.transAxes,fontsize=16)
 	        ax.tick_params(labelsize=16)
 
 
-plt.savefig('mai2090_4585_regiona1.png')
+plt.savefig('mai2090_4585_regionbarall.png')
 plt.show()
 
 

@@ -9,10 +9,10 @@ from scipy.interpolate import griddata
 region1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/HistoricalGLM_crop_150901.nc','r')
 landfrac=region1.variables['landfrac'][:]
 lonisam1=region1.variables['lon'][:]
-maitrop = region1.variables['maize_trop'][95:105,:,:]
-maitemp = region1.variables['maize_temp'][95:105,:,:]
-maitropi=region1.variables['maize_trop_irrig'][95:105,:,:]
-maitempi=region1.variables['maize_temp_irrig'][95:105,:,:]
+maitrop = region1.variables['soy_trop'][95:105,:,:]
+maitemp = region1.variables['soy_temp'][95:105,:,:]
+maitropi=region1.variables['soy_trop_irrig'][95:105,:,:]
+maitempi=region1.variables['soy_temp_irrig'][95:105,:,:]
 maitrop=ma.masked_where(maitrop<=0,maitrop)
 maitrop=ma.filled(maitrop, fill_value=0.)
 maitemp=ma.masked_where(maitemp<=0,maitemp)
@@ -29,9 +29,9 @@ maizetor=maitrop+maitemp
 maizetoi=maitropi+maitempi
 maizeto = maitrop+maitemp+maitropi+maitempi
 
-clm=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/plot/finalyield/clm/clm45his_maiscaleifyield.nc','r')
+clm=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/plot/finalyield/clm/clm45his_soyscaleifyield.nc','r')
 clmyield = clm.variables['yield'][95:105,:,:]
-isam=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/plot/finalyield/isam/heat/isamhis_maiscaleifyield_heat.nc','r')
+isam=NetCDFFile('/scratch2/scratchdirs/tslin2/isam/cheyenne/plot/finalyield/isam/heat/isamhis_soyscaleifyield_heat.nc','r')
 isamyield = isam.variables['yield'][95:105,:,:]
 clmyield[N.isnan(clmyield)] = 0
 clmyield = ma.masked_where(clmyield<=0,clmyield)
@@ -45,10 +45,10 @@ isamyield=ma.filled(isamyield, fill_value=0.)
 
     
 region1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/RCP45_crop_150901.nc','r')
-maitropf = region1.variables['maize_trop'][84:94,:,:]
-maitempf = region1.variables['maize_temp'][84:94,:,:]
-maitropif=region1.variables['maize_trop_irrig'][84:94,:,:]
-maitempif=region1.variables['maize_temp_irrig'][84:94,:,:]
+maitropf = region1.variables['soy_trop'][84:94,:,:]
+maitempf = region1.variables['soy_temp'][84:94,:,:]
+maitropif=region1.variables['soy_trop_irrig'][84:94,:,:]
+maitempif=region1.variables['soy_temp_irrig'][84:94,:,:]
 
 maitropf=ma.masked_where(maitropf<=0,maitropf)
 maitropf=ma.filled(maitropf, fill_value=0.)
@@ -68,10 +68,10 @@ maizetof = maitropf+maitempf+maitropif+maitempif
 
 
 region18=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/RCP85_crop_150901.nc','r')
-maitropf8 = region18.variables['maize_trop'][84:94,:,:]
-maitempf8 = region18.variables['maize_temp'][84:94,:,:]
-maitropif8=region18.variables['maize_trop_irrig'][84:94,:,:]
-maitempif8=region18.variables['maize_temp_irrig'][84:94,:,:]
+maitropf8 = region18.variables['soy_trop'][84:94,:,:]
+maitempf8 = region18.variables['soy_temp'][84:94,:,:]
+maitropif8=region18.variables['soy_trop_irrig'][84:94,:,:]
+maitempif8=region18.variables['soy_temp_irrig'][84:94,:,:]
 
 maitropf8=ma.masked_where(maitropf8<=0,maitropf8)
 maitropf8=ma.filled(maitropf8, fill_value=0.)
@@ -95,19 +95,19 @@ clmtropfi=N.zeros((10,360,720))
 clmtempfi=N.zeros((10,360,720))
 
 for j in range(0,10):
-	clm=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetrop_rcp45_constco2_rf_nofert_0.5x0.5.nc','r')
+	clm=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/soytrop_rcp45_constco2_rf_nofert_0.5x0.5.nc','r')
 	aa= N.flipud(clm.variables['yield'][84+j,:,:])
 	clmtropf[j,:,:] = aa
 	
-	clm1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetemp_rcp45_constco2_rf_nofert_0.5x0.5.nc','r')
+	clm1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/soytemp_rcp45_constco2_rf_nofert_0.5x0.5.nc','r')
 	bb = N.flipud(clm1.variables['yield'][84+j,:,:])
 	clmtempf[j,:,:] = bb
 
-	clm2=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetrop_rcp45_co2_rf_nofert_0.5x0.5.nc','r')
+	clm2=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/soytrop_rcp45_co2_rf_nofert_0.5x0.5.nc','r')
 	cc = N.flipud(clm2.variables['yield'][84+j,:,:])
 	clmtropfi[j,:,:] = cc
 
-	clm3=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetemp_rcp45_co2_rf_nofert_0.5x0.5.nc','r')
+	clm3=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/soytemp_rcp45_co2_rf_nofert_0.5x0.5.nc','r')
 	dd = N.flipud(clm3.variables['yield'][84+j,:,:])
 	clmtempfi[j,:,:] = dd
 
@@ -119,19 +119,19 @@ clmtropfi8=N.zeros((10,360,720))
 clmtempfi8=N.zeros((10,360,720))
 
 for j in range(0,10):
-        clm=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetrop_rcp85_constco2_rf_nofert_0.5x0.5.nc','r')
+        clm=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/soytrop_rcp85_constco2_rf_nofert_0.5x0.5.nc','r')
         aa= N.flipud(clm.variables['yield'][84+j,:,:])
         clmtropf8[j,:,:] = aa
 
-        clm1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetemp_rcp85_constco2_rf_nofert_0.5x0.5.nc','r')
+        clm1=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/soytemp_rcp85_constco2_rf_nofert_0.5x0.5.nc','r')
         bb = N.flipud(clm1.variables['yield'][84+j,:,:])
         clmtempf8[j,:,:] = bb
 
-        clm2=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetrop_rcp85_co2_rf_nofert_0.5x0.5.nc','r')
+        clm2=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/soytrop_rcp85_co2_rf_nofert_0.5x0.5.nc','r')
         cc = N.flipud(clm2.variables['yield'][84+j,:,:])
         clmtropfi8[j,:,:] = cc
 
-        clm3=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetemp_rcp85_co2_rf_nofert_0.5x0.5.nc','r')
+        clm3=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/soytemp_rcp85_co2_rf_nofert_0.5x0.5.nc','r')
         dd = N.flipud(clm3.variables['yield'][84+j,:,:])
         clmtempfi8[j,:,:] = dd
 
@@ -220,19 +220,19 @@ clmtropfin=N.zeros((10,360,720))
 clmtempfin=N.zeros((10,360,720))
 
 for j in range(0,10):
-        clmn=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetrop_rcp45_co2_rf_fert_0.5x0.5.nc','r')
+        clmn=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/soytrop_rcp45_co2_rf_fert_0.5x0.5.nc','r')
         aa= N.flipud(clmn.variables['yield'][84+j,:,:])
         clmtropfn[j,:,:] = aa
 
-        clm1n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetemp_rcp45_co2_rf_fert_0.5x0.5.nc','r')
+        clm1n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/soytemp_rcp45_co2_rf_fert_0.5x0.5.nc','r')
         bb = N.flipud(clm1n.variables['yield'][84+j,:,:])
         clmtempfn[j,:,:] = bb
 
-        clm2n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetrop_rcp45_co2_irrig_fert_0.5x0.5.nc','r')
+        clm2n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/soytrop_rcp45_co2_irrig_fert_0.5x0.5.nc','r')
         cc = N.flipud(clm2n.variables['yield'][84+j,:,:])
         clmtropfin[j,:,:] = cc
 
-        clm3n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/maizetemp_rcp45_co2_irrig_fert_0.5x0.5.nc','r')
+        clm3n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp45/soytemp_rcp45_co2_irrig_fert_0.5x0.5.nc','r')
         dd = N.flipud(clm3n.variables['yield'][84+j,:,:])
         clmtempfin[j,:,:] = dd
 
@@ -245,19 +245,19 @@ clmtropfin8=N.zeros((10,360,720))
 clmtempfin8=N.zeros((10,360,720))
 
 for j in range(0,10):
-        clmn=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetrop_rcp85_co2_rf_fert_0.5x0.5.nc','r')
+        clmn=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/soytrop_rcp85_co2_rf_fert_0.5x0.5.nc','r')
         aa= N.flipud(clmn.variables['yield'][84+j,:,:])
         clmtropfn8[j,:,:] = aa
 
-        clm1n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetemp_rcp85_co2_rf_fert_0.5x0.5.nc','r')
+        clm1n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/soytemp_rcp85_co2_rf_fert_0.5x0.5.nc','r')
         bb = N.flipud(clm1n.variables['yield'][84+j,:,:])
         clmtempfn8[j,:,:] = bb
 
-        clm2n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetrop_rcp85_co2_irrig_fert_0.5x0.5.nc','r')
+        clm2n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/soytrop_rcp85_co2_irrig_fert_0.5x0.5.nc','r')
         cc = N.flipud(clm2n.variables['yield'][84+j,:,:])
         clmtropfin8[j,:,:] = cc
 
-        clm3n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/maizetemp_rcp85_co2_irrig_fert_0.5x0.5.nc','r')
+        clm3n=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/clm/clm45rcp85/soytemp_rcp85_co2_irrig_fert_0.5x0.5.nc','r')
         dd = N.flipud(clm3n.variables['yield'][84+j,:,:])
         clmtempfin8[j,:,:] = dd
 
@@ -331,22 +331,22 @@ yield_clmtfin8 = ma.masked_where(yield_clmtfin8<=0,yield_clmtfin8)
 yield_clmtfin8 = ma.masked_where(maizetof8<=0,yield_clmtfin8)
 yield_clmtfin8=ma.filled(yield_clmtfin8, fill_value=0.)
 
-base = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/maizetemp_rcp45_constco2_rf_nofert_0.5x0.5.nc", mode='r')
-base2 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/maizetemp_rcp45_co2_rf_nofert_0.5x0.5.nc", mode='r')
+base = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/soytemp_rcp45_constco2_rf_nofert_0.5x0.5.nc", mode='r')
+base2 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/soytemp_rcp45_co2_rf_nofert_0.5x0.5.nc", mode='r')
 
 lona1 = base.variables["lon"][:]
 lata1 = base.variables["lat"][:]
 yieldf = base.variables["totalyield"][84:94,:,:]
 yieldfa = base2.variables["totalyield"][84:94,:,:]
 
-basei = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/maizetemp_rcp45_co2_rf_fert_0.5x0.5.nc", mode='r')
-base2i = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/maizetemp_rcp45_co2_irrig_fert_0.5x0.5.nc", mode='r')
+basei = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/soytemp_rcp45_co2_rf_fert_0.5x0.5.nc", mode='r')
+base2i = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/soytemp_rcp45_co2_irrig_fert_0.5x0.5.nc", mode='r')
 
 yieldfi = basei.variables["totalyield"][84:94,:,:]
 yieldfai = base2i.variables["totalyield"][84:94,:,:]
        
-baseif = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/maizetrop_rcp45_co2_rf_fert_0.5x0.5.nc", mode='r')
-base2if = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/new1/maizetrop_rcp45_co2_irrig_fert_0.5x0.5.nc", mode='r')
+baseif = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/soytrop_rcp45_co2_rf_fert_0.5x0.5.nc", mode='r')
+base2if = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp45/heat/soytrop_rcp45_co2_irrig_fert_0.5x0.5.nc", mode='r')
 
 yieldfitr = baseif.variables["totalyield"][84:94,:,:]
 
@@ -354,22 +354,22 @@ yieldfaitr = base2if.variables["totalyield"][84:94,:,:]
 
 
 
-base8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/maizetemp_rcp85_constco2_rf_nofert_0.5x0.5.nc", mode='r')
-base28 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/maizetemp_rcp85_co2_rf_nofert_0.5x0.5.nc", mode='r')
+base8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/soytemp_rcp85_constco2_rf_nofert_0.5x0.5.nc", mode='r')
+base28 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/soytemp_rcp85_co2_rf_nofert_0.5x0.5.nc", mode='r')
 
 lona18 = base8.variables["lon"][:]
 lata18 = base8.variables["lat"][:]
 yieldf8 = base8.variables["totalyield"][84:94,:,:]
 yieldfa8 = base28.variables["totalyield"][84:94,:,:]
 
-basei8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/maizetemp_rcp85_co2_rf_fert_0.5x0.5.nc", mode='r')
-base2i8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/maizetemp_rcp85_co2_irrig_fert_0.5x0.5.nc", mode='r')
+basei8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/soytemp_rcp85_co2_rf_fert_0.5x0.5.nc", mode='r')
+base2i8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/soytemp_rcp85_co2_irrig_fert_0.5x0.5.nc", mode='r')
 
 yieldfi8 = basei8.variables["totalyield"][84:94,:,:]
 yieldfai8 = base2i8.variables["totalyield"][84:94,:,:]
 
-baseif8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/maizetrop_rcp85_co2_rf_fert_0.5x0.5.nc", mode='r')
-base2if8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/new1/maizetrop_rcp85_co2_irrig_fert_0.5x0.5.nc", mode='r')
+baseif8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/soytrop_rcp85_co2_rf_fert_0.5x0.5.nc", mode='r')
+base2if8 = NetCDFFile ("/scratch2/scratchdirs/tslin2/isam/cheyenne/yieldout/isamrcp85/heat/soytrop_rcp85_co2_irrig_fert_0.5x0.5.nc", mode='r')
 
 yieldfitr8 = baseif8.variables["totalyield"][84:94,:,:]
 
@@ -565,7 +565,7 @@ mask1 = area1.variables['REGION_MASK_CRU_NCEP'][:,:]
 mask,lona = shiftgrid(180.5,mask1,lonaa,start=False)
 
 nclu=NetCDFFile('/scratch2/scratchdirs/tslin2/plot/globalcrop/data/m3yield_isam.nc','r')
-ncvar_maize1 = nclu.variables['maizey'][0,:,:]
+ncvar_maize1 = nclu.variables['soyy'][0,:,:]
 ncvar_maize,lona = shiftgrid(180.5,ncvar_maize1,lonaa,start=False)
 
 
@@ -727,9 +727,13 @@ print fisama[0,:],fisamb[0,:],fisamc[0,:],fisamd[0,:],fisama8[0,:],fisamb8[0,:],
 
 fig = plt.figure(figsize=(8,8))
 #plt.rc('font', weight='bold')
+n_groups = 1
+index = N.arange(n_groups)
+bar_width = 0.007
+opacity = 0.6
 for idx in xrange(9):
         ax = fig.add_subplot(3, 3, idx+1)
-        ax.spines['bottom'].set_visible(False)
+        #ax.spines['bottom'].set_visible(False)
         ax.spines['right'].set_visible(False)
         ax.spines['top'].set_visible(False)
         ax.yaxis.set_ticks_position('left')
@@ -737,64 +741,65 @@ for idx in xrange(9):
         #        ax.set_yticklabels([-100,0,100,200,300,400])
 #	else:
 	#	ax.set_yticklabels([])
-       # plt.ylim(-100, 450)
-	bar_width = 0.6
-	opacity = 0.5
-	plt.axhline(y=0.0, color='gray', linestyle=':')
+        #plt.ylim(-80, 460)
+	ax.set_xticks([0.038,0.102])
+        ax.set_xticklabels(["RCP4.5","RCP8.5"])
+
+#	plt.axhline(y=0.0, color='gray', linestyle=':')
 	for x in range(0,2):
              if x==0:	
-        	rects0 = plt.scatter(1, fisama[idx,x],s=80,
+        	rects0 = plt.bar(0.01+index, fisama[idx,x],bar_width,hatch='..',
                    	color='b',alpha=opacity,
                  	label='CLIMATE')
-		rects4 = plt.scatter(2, fisamb[idx,x],
-		                 	color='k',alpha=opacity,s=80,
+		rects4 = plt.bar(0.01+index+bar_width*2, fisamb[idx,x],bar_width,hatch='..',
+		                 	color='k',alpha=opacity,
 		                 	label='CO2+CLIMATE')
-	        rects1 = plt.scatter(3, fisamc[idx,x],
-	                 	color='g',alpha=opacity,s=80,
+	        rects1 = plt.bar(0.01+index+bar_width*4, fisamc[idx,x],bar_width,hatch='..',
+	                 	color='g',alpha=opacity,
 	                 	label='CO2+CLIMATE+N')
-	        rects2 = plt.scatter(4 , fisamd[idx,x], 
-                	        color='r',alpha=opacity,s=80,
+	        rects2 = plt.bar(0.01+index+bar_width*6 , fisamd[idx,x], bar_width,hatch='..',
+                	        color='r',alpha=opacity,
                         	label='CO2+CLIMATE+N+I')
              else:
-		rects10 = plt.scatter(1, fisama[idx,x],
-                        color='b',facecolors='none',alpha=1,s=80,
+		rects10 = plt.bar(0.01+index+bar_width*1, fisama[idx,x],bar_width,
+                        color='b',alpha=opacity,
                         label='CLIMATE')
-                rects14 = plt.scatter(2, fisamb[idx,x],
-                                        color='k',facecolors='none',alpha=1,s=80,
+                rects14 = plt.bar(0.01+index+bar_width*3, fisamb[idx,x],bar_width,
+                                        color='k',alpha=opacity,
                                         label='CO2+CLIMATE')
-                rects11 = plt.scatter(3, fisamc[idx,x],
-                                color='g',facecolors='none',alpha=1,s=80,
+                rects11 = plt.bar(0.01+index+bar_width*5, fisamc[idx,x],bar_width,
+                                color='g',alpha=opacity,
                                 label='CO2+CLIMATE+N')
-                rects12 = plt.scatter(4 , fisamd[idx,x],s=80,
-                                color='r',facecolors='none',alpha=1,
+                rects12 = plt.bar(0.01+index+bar_width*7 , fisamd[idx,x],bar_width,
+                                color='r',alpha=opacity,
                                 label='CO2+CLIMATE+N+I')
 
         for x in range(0,2):
              if x==0:
-                rects08 = plt.scatter(1.5, fisama8[idx,x],s=80,
-                        color='b',alpha=0.5,marker='*',
+                rects08 = plt.bar(0.01+index+bar_width*9, fisama8[idx,x],bar_width,hatch='..',
+                        color='b',alpha=opacity,
                         label='CLIMATE')
-                rects48 = plt.scatter(2.5, fisamb8[idx,x],
-                                        color='k',alpha=0.5,s=80,marker='*',
+                rects48 = plt.bar(0.01+index+bar_width*11, fisamb8[idx,x],bar_width,hatch='..',
+                                        color='k',alpha=opacity,
                                         label='CO2+CLIMATE')
-                rects18 = plt.scatter(3.5, fisamc8[idx,x],marker='*',
-                                color='g',alpha=0.5,s=80,
+                rects18 = plt.bar(0.01+index+bar_width*13, fisamc8[idx,x],bar_width,hatch='..',
+                                color='g',alpha=opacity,
                                 label='CO2+CLIMATE+N')
-                rects28 = plt.scatter(4.5 , fisamd8[idx,x],marker='*',
-                                color='r',alpha=0.5,s=80,
+                rects28 = plt.bar(0.01+index+bar_width*15 , fisamd8[idx,x],bar_width,hatch='..',
+                                color='r',alpha=opacity,
                                 label='CO2+CLIMATE+N+I')
              else:
-                rects108 = plt.scatter(1.5, fisama8[idx,x],facecolors='none',
-                        color='b',marker='*',alpha=1,s=80,
+                rects108 = plt.bar(0.01+index+bar_width*10, fisama8[idx,x],bar_width,
+                        color='b',alpha=opacity,
                         label='CLIMATE')
-                rects148 = plt.scatter(2.5, fisamb8[idx,x],facecolors='none',
-                                        color='k',marker='*',alpha=1,s=80,
+                rects148 = plt.bar(0.01+index+bar_width*12, fisamb8[idx,x],bar_width,
+                                        color='k',alpha=opacity,
                                         label='CO2+CLIMATE')
-                rects118 = plt.scatter(3.5, fisamc8[idx,x],facecolors='none',
-                                color='g',marker='*',alpha=1,s=80,
+                rects118 = plt.bar(0.01+index+bar_width*14, fisamc8[idx,x],bar_width,
+                                color='g',alpha=opacity,
                                 label='CO2+CLIMATE+N')
-                rects128 = plt.scatter(4.5 , fisamd8[idx,x],s=80,facecolors='none',
-                                color='r',marker='*',alpha=1,
+                rects128 = plt.bar(0.01+index+bar_width*16 , fisamd8[idx,x],bar_width,
+                                color='r',alpha=opacity,
                                 label='CO2+CLIMATE+N+I')
 
 
@@ -802,21 +807,22 @@ for idx in xrange(9):
 	        plt.tick_params(
         	    axis='x',          # changes apply to the x-axis
       	      	    which='both',      # both major and minor ticks are affected
-                    bottom='off',      # ticks along the bottom edge are off
+                    bottom='on',      # ticks along the bottom edge are off
                     top='off',         # ticks along the top edge are off
-                    labelbottom='off') # labels along the bottom edge are off
+                    labelbottom='on') # labels along the bottom edge are off
 
 	        #plt.ylim(-35,90)
 	        #plt.yticks(N.arange(-35,90,10))
 
 	#plt.xticks(index + bar_width+0.2, ('ISAM','CLM'))
-	        ax.text(.5,.85,'{0}'.format(name[idx]),
-        	        horizontalalignment='center',
-                	transform=ax.transAxes,fontsize=16)
+		ax.set_title('{0}'.format(name[idx]))
+#	        ax.text(.5,.85,'{0}'.format(name[idx]),
+#        	        horizontalalignment='center',
+#                	transform=ax.transAxes,fontsize=16)
 	        ax.tick_params(labelsize=16)
 
 
-plt.savefig('mai2090_4585_regiona1.png')
+plt.savefig('soy2090_4585_regionbarall.png')
 plt.show()
 
 
